@@ -1,0 +1,29 @@
+[gd_scene load_steps=2 format=3 uid="uid://dlwxvxi5f2k0u"]
+
+[ext_resource type="Script" uid="uid://7ficlgqtmnbq" path="res://scripts/MainScreen.gd" id="1_j6ixq"]
+
+[node name="MainScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_j6ixq")
+
+[node name="StartButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 456.0
+offset_top = 347.0
+offset_right = 799.0
+offset_bottom = 522.0
+theme_override_font_sizes/font_size = 50
+text = "Start Battle!
+"
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = -3.0
+offset_top = 35.0
+offset_right = 1276.0
+offset_bottom = 221.0
+theme_override_font_sizes/font_size = 70
+text = "Unamon: Mist & Stone (Varia Demo)"
+horizontal_alignment = 1
+vertical_alignment = 1

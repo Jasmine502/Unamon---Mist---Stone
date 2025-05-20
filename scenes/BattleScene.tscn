@@ -1,0 +1,450 @@
+[gd_scene load_steps=77 format=3 uid="uid://drnv6le1b63ev"]
+
+[ext_resource type="Script" uid="uid://cooc50ixagou3" path="res://scripts/BattleScene.gd" id="1_bsu3s"]
+[ext_resource type="Texture2D" uid="uid://dq0oh3lh6ey71" path="res://sprites/unamon/smoglet.png" id="1_gkmpl"]
+[ext_resource type="Texture2D" uid="uid://u1xisbaqmn1v" path="res://sprites/unamon/marinawk.png" id="2_3mvhd"]
+[ext_resource type="Texture2D" uid="uid://752lh62vfp64" path="res://sprites/trainers/trainer_player_placeholder.png" id="2_hrc4b"]
+[ext_resource type="Script" uid="uid://bkn5u8haatvsm" path="res://scripts/SpriteEntry.gd" id="2_vtyuj"]
+[ext_resource type="Texture2D" uid="uid://cglx1oe8cq7ng" path="res://sprites/trainers/trainer_ego.png" id="3_sgm0l"]
+[ext_resource type="Texture2D" uid="uid://b2ou20nmyyn4w" path="res://sprites/unamon/flamura.png" id="4_lyay3"]
+[ext_resource type="AudioStream" uid="uid://csdb4dnvhu574" path="res://sounds/hit_sound.wav" id="4_sdfhe"]
+[ext_resource type="AudioStream" uid="uid://dnr38nuyl472" path="res://sounds/faint_sound.wav" id="5_hrc4b"]
+[ext_resource type="Texture2D" uid="uid://bfwyb5heromyo" path="res://sprites/unamon/ignantom.png" id="5_ikhwg"]
+[ext_resource type="Texture2D" uid="uid://dxgjk7ukogg3f" path="res://sprites/unamon/flopix.png" id="6_4gmaf"]
+[ext_resource type="AudioStream" uid="uid://dpdamxiy556a6" path="res://sounds/select_sound.wav" id="6_sgm0l"]
+[ext_resource type="Texture2D" uid="uid://dtqr1qxfynbwj" path="res://sprites/unamon/aquilia.png" id="7_0ec1h"]
+[ext_resource type="AudioStream" uid="uid://e85o4o7ugvna" path="res://sounds/battle_music.ogg" id="7_a4ns4"]
+[ext_resource type="Texture2D" uid="uid://b3njhwcdpoib3" path="res://sprites/unamon/cracklesap.png" id="7_twkpy"]
+[ext_resource type="Texture2D" uid="uid://bn4wway8eqv2a" path="res://sprites/unamon/salamendro.png" id="8_dhoow"]
+[ext_resource type="Texture2D" uid="uid://d0037h36rd0i4" path="res://sprites/unamon/wyvorophyll.png" id="9_h7erw"]
+[ext_resource type="Texture2D" uid="uid://bodndi0rlmuhc" path="res://sprites/unamon/cryoul.png" id="10_s45ie"]
+[ext_resource type="Texture2D" uid="uid://lm7dac75twnv" path="res://sprites/unamon/cryophant.png" id="11_242tl"]
+[ext_resource type="Texture2D" uid="uid://d2lx0se3joi7g" path="res://sprites/unamon/sativaur.png" id="12_v6eoa"]
+[ext_resource type="Texture2D" uid="uid://cjnltylxmp4pd" path="res://sprites/unamon/marijuadon.png" id="13_lckn5"]
+[ext_resource type="Texture2D" uid="uid://bhxmdodcl1m2" path="res://sprites/unamon/shocksteed.png" id="14_prxlm"]
+[ext_resource type="Texture2D" uid="uid://o7cp30y7qo0" path="res://sprites/unamon/ryno.png" id="15_tse8l"]
+[ext_resource type="Texture2D" uid="uid://datcc74oybncc" path="res://sprites/trainers/trainer_aimee.png" id="16_j8k6u"]
+[ext_resource type="Texture2D" uid="uid://ba6eoltyjn07e" path="res://sprites/trainers/trainer_amy.png" id="17_0ec1h"]
+[ext_resource type="Texture2D" uid="uid://bsi205gq7oy7" path="res://sprites/trainers/trainer_asteria.png" id="18_7hgux"]
+[ext_resource type="Texture2D" uid="uid://dr6wk0ra4fddp" path="res://sprites/trainers/trainer_ayla.png" id="19_s5sem"]
+[ext_resource type="Texture2D" uid="uid://xp7lqaa44ua6" path="res://sprites/trainers/trainer_bas.png" id="20_wdx4d"]
+[ext_resource type="Texture2D" uid="uid://bc7i8h827bwgt" path="res://sprites/trainers/trainer_bkyu.png" id="21_gmnrv"]
+[ext_resource type="Texture2D" uid="uid://cpwvlustkdcf1" path="res://sprites/trainers/trainer_brooks.png" id="22_osvr5"]
+[ext_resource type="Texture2D" uid="uid://cfkxaoyvecfhy" path="res://sprites/trainers/trainer_dustin.png" id="23_mj0st"]
+[ext_resource type="Texture2D" uid="uid://bl12bnsfs2xaj" path="res://sprites/trainers/trainer_esther.png" id="25_kwf4x"]
+[ext_resource type="Texture2D" uid="uid://btemhp8eyuv2n" path="res://sprites/trainers/trainer_ghost.png" id="26_xe6ct"]
+[ext_resource type="Texture2D" uid="uid://bqh0t7kybx1hf" path="res://sprites/trainers/trainer_id.png" id="27_tba6u"]
+[ext_resource type="Texture2D" uid="uid://c6s8p43ft6x4n" path="res://sprites/trainers/trainer_kol.png" id="28_qq8kj"]
+[ext_resource type="Texture2D" uid="uid://dfk2fltm185oy" path="res://sprites/trainers/trainer_melanie.png" id="29_giceh"]
+[ext_resource type="Texture2D" uid="uid://cvftau7etaxst" path="res://sprites/trainers/trainer_miyamoto.png" id="30_ljqkc"]
+[ext_resource type="Texture2D" uid="uid://b43pj58xcodr3" path="res://sprites/trainers/trainer_oj.png" id="31_et8hj"]
+[ext_resource type="Texture2D" uid="uid://cwdt12pbiko10" path="res://sprites/trainers/trainer_pato.png" id="32_7e6db"]
+[ext_resource type="Texture2D" uid="uid://ddfds8eockm63" path="res://sprites/trainers/trainer_penny.png" id="33_uta05"]
+[ext_resource type="Texture2D" uid="uid://bayucqv2whj5i" path="res://sprites/trainers/trainer_pj.png" id="34_nd6w6"]
+[ext_resource type="Texture2D" uid="uid://f7ptp47yo01q" path="res://sprites/unamon/d83htw0-ec490c3b-f7dd-4570-a698-8404a8a12f99.png" id="38_7hgux"]
+
+[sub_resource type="Resource" id="Resource_ahh7x"]
+script = ExtResource("2_vtyuj")
+entry_name = "Smoglet"
+texture = ExtResource("1_gkmpl")
+metadata/_custom_type_script = "uid://bkn5u8haatvsm"
+
+[sub_resource type="Resource" id="Resource_h7erw"]
+script = ExtResource("2_vtyuj")
+entry_name = "Flamura"
+texture = ExtResource("4_lyay3")
+metadata/_custom_type_script = "uid://bkn5u8haatvsm"
+
+[sub_resource type="Resource" id="Resource_s45ie"]
+script = ExtResource("2_vtyuj")
+entry_name = "Ignantom"
+texture = ExtResource("5_ikhwg")
+metadata/_custom_type_script = "uid://bkn5u8haatvsm"
+
+[sub_resource type="Resource" id="Resource_242tl"]
+script = ExtResource("2_vtyuj")
+entry_name = "Flopix"
+texture = ExtResource("6_4gmaf")
+metadata/_custom_type_script = "uid://bkn5u8haatvsm"
+
+[sub_resource type="Resource" id="Resource_v6eoa"]
+script = ExtResource("2_vtyuj")
+entry_name = "Aquilia"
+texture = ExtResource("7_0ec1h")
+metadata/_custom_type_script = "uid://bkn5u8haatvsm"
+
+[sub_resource type="Resource" id="Resource_lckn5"]
+script = ExtResource("2_vtyuj")
+entry_name = "Marinawk"
+texture = ExtResource("2_3mvhd")
+metadata/_custom_type_script = "uid://bkn5u8haatvsm"
+
+[sub_resource type="Resource" id="Resource_prxlm"]
+script = ExtResource("2_vtyuj")
+entry_name = "Cracklesap"
+texture = ExtResource("7_twkpy")
+metadata/_custom_type_script = "uid://bkn5u8haatvsm"
+
+[sub_resource type="Resource" id="Resource_tse8l"]
+script = ExtResource("2_vtyuj")
+entry_name = "Salamendro"
+texture = ExtResource("8_dhoow")
+metadata/_custom_type_script = "uid://bkn5u8haatvsm"
+
+[sub_resource type="Resource" id="Resource_so6w4"]
+script = ExtResource("2_vtyuj")
+entry_name = "Wyvorophyll"
+texture = ExtResource("9_h7erw")
+metadata/_custom_type_script = "uid://bkn5u8haatvsm"
+
+[sub_resource type="Resource" id="Resource_3jfyn"]
+script = ExtResource("2_vtyuj")
+entry_name = "Cryoul"
+texture = ExtResource("10_s45ie")
+metadata/_custom_type_script = "uid://bkn5u8haatvsm"
+
+[sub_resource type="Resource" id="Resource_qka88"]
+script = ExtResource("2_vtyuj")
+entry_name = "Cryophant"
+texture = ExtResource("11_242tl")
+metadata/_custom_type_script = "uid://bkn5u8haatvsm"
+
+[sub_resource type="Resource" id="Resource_b7xr6"]
+script = ExtResource("2_vtyuj")
+entry_name = "Sativaur"
+texture = ExtResource("12_v6eoa")
+metadata/_custom_type_script = "uid://bkn5u8haatvsm"
+
+[sub_resource type="Resource" id="Resource_3uy3p"]
+script = ExtResource("2_vtyuj")
+entry_name = "Marijuadon"
+texture = ExtResource("13_lckn5")
+metadata/_custom_type_script = "uid://bkn5u8haatvsm"
+
+[sub_resource type="Resource" id="Resource_ej4si"]
+script = ExtResource("2_vtyuj")
+entry_name = "Shocksteed"
+texture = ExtResource("14_prxlm")
+metadata/_custom_type_script = "uid://bkn5u8haatvsm"
+
+[sub_resource type="Resource" id="Resource_gbss3"]
+script = ExtResource("2_vtyuj")
+entry_name = "Ryno"
+texture = ExtResource("15_tse8l")
+metadata/_custom_type_script = "uid://bkn5u8haatvsm"
+
+[sub_resource type="Resource" id="Resource_1d3uh"]
+script = ExtResource("2_vtyuj")
+entry_name = "Aimee"
+texture = ExtResource("16_j8k6u")
+metadata/_custom_type_script = "uid://bkn5u8haatvsm"
+
+[sub_resource type="Resource" id="Resource_3a8rw"]
+script = ExtResource("2_vtyuj")
+entry_name = "Amy"
+texture = ExtResource("17_0ec1h")
+metadata/_custom_type_script = "uid://bkn5u8haatvsm"
+
+[sub_resource type="Resource" id="Resource_sbyit"]
+script = ExtResource("2_vtyuj")
+entry_name = "Asteria"
+texture = ExtResource("18_7hgux")
+metadata/_custom_type_script = "uid://bkn5u8haatvsm"
+
+[sub_resource type="Resource" id="Resource_tx5gc"]
+script = ExtResource("2_vtyuj")
+entry_name = "Ayla"
+texture = ExtResource("19_s5sem")
+metadata/_custom_type_script = "uid://bkn5u8haatvsm"
+
+[sub_resource type="Resource" id="Resource_j8k6u"]
+script = ExtResource("2_vtyuj")
+entry_name = "Bas"
+texture = ExtResource("20_wdx4d")
+metadata/_custom_type_script = "uid://bkn5u8haatvsm"
+
+[sub_resource type="Resource" id="Resource_0ec1h"]
+script = ExtResource("2_vtyuj")
+entry_name = "Bkyu"
+texture = ExtResource("21_gmnrv")
+metadata/_custom_type_script = "uid://bkn5u8haatvsm"
+
+[sub_resource type="Resource" id="Resource_7hgux"]
+script = ExtResource("2_vtyuj")
+entry_name = "Brooks"
+texture = ExtResource("22_osvr5")
+metadata/_custom_type_script = "uid://bkn5u8haatvsm"
+
+[sub_resource type="Resource" id="Resource_s5sem"]
+script = ExtResource("2_vtyuj")
+entry_name = "Dustin"
+texture = ExtResource("23_mj0st")
+metadata/_custom_type_script = "uid://bkn5u8haatvsm"
+
+[sub_resource type="Resource" id="Resource_wdx4d"]
+script = ExtResource("2_vtyuj")
+entry_name = "Ego"
+texture = ExtResource("3_sgm0l")
+metadata/_custom_type_script = "uid://bkn5u8haatvsm"
+
+[sub_resource type="Resource" id="Resource_gmnrv"]
+script = ExtResource("2_vtyuj")
+entry_name = "Esther"
+texture = ExtResource("25_kwf4x")
+metadata/_custom_type_script = "uid://bkn5u8haatvsm"
+
+[sub_resource type="Resource" id="Resource_osvr5"]
+script = ExtResource("2_vtyuj")
+entry_name = "Ghost"
+texture = ExtResource("26_xe6ct")
+metadata/_custom_type_script = "uid://bkn5u8haatvsm"
+
+[sub_resource type="Resource" id="Resource_mj0st"]
+script = ExtResource("2_vtyuj")
+entry_name = "Id"
+texture = ExtResource("27_tba6u")
+metadata/_custom_type_script = "uid://bkn5u8haatvsm"
+
+[sub_resource type="Resource" id="Resource_kwf4x"]
+script = ExtResource("2_vtyuj")
+entry_name = "KOL"
+texture = ExtResource("28_qq8kj")
+metadata/_custom_type_script = "uid://bkn5u8haatvsm"
+
+[sub_resource type="Resource" id="Resource_xe6ct"]
+script = ExtResource("2_vtyuj")
+entry_name = "Melanie"
+texture = ExtResource("29_giceh")
+metadata/_custom_type_script = "uid://bkn5u8haatvsm"
+
+[sub_resource type="Resource" id="Resource_tba6u"]
+script = ExtResource("2_vtyuj")
+entry_name = "Miyamoto"
+texture = ExtResource("30_ljqkc")
+metadata/_custom_type_script = "uid://bkn5u8haatvsm"
+
+[sub_resource type="Resource" id="Resource_qq8kj"]
+script = ExtResource("2_vtyuj")
+entry_name = "OJ"
+texture = ExtResource("31_et8hj")
+metadata/_custom_type_script = "uid://bkn5u8haatvsm"
+
+[sub_resource type="Resource" id="Resource_giceh"]
+script = ExtResource("2_vtyuj")
+entry_name = "Pato"
+texture = ExtResource("32_7e6db")
+metadata/_custom_type_script = "uid://bkn5u8haatvsm"
+
+[sub_resource type="Resource" id="Resource_ljqkc"]
+script = ExtResource("2_vtyuj")
+entry_name = "Penny"
+texture = ExtResource("33_uta05")
+metadata/_custom_type_script = "uid://bkn5u8haatvsm"
+
+[sub_resource type="Resource" id="Resource_et8hj"]
+script = ExtResource("2_vtyuj")
+entry_name = "PJ"
+texture = ExtResource("34_nd6w6")
+metadata/_custom_type_script = "uid://bkn5u8haatvsm"
+
+[node name="BattleScene" type="Node2D"]
+script = ExtResource("1_bsu3s")
+unamon_sprite_entries = Array[ExtResource("2_vtyuj")]([SubResource("Resource_ahh7x"), SubResource("Resource_h7erw"), SubResource("Resource_s45ie"), SubResource("Resource_242tl"), SubResource("Resource_v6eoa"), SubResource("Resource_lckn5"), SubResource("Resource_prxlm"), SubResource("Resource_tse8l"), SubResource("Resource_so6w4"), SubResource("Resource_3jfyn"), SubResource("Resource_qka88"), SubResource("Resource_b7xr6"), SubResource("Resource_3uy3p"), SubResource("Resource_ej4si"), SubResource("Resource_gbss3")])
+opponent_trainer_sprite_entries = Array[ExtResource("2_vtyuj")]([SubResource("Resource_1d3uh"), SubResource("Resource_3a8rw"), SubResource("Resource_sbyit"), SubResource("Resource_tx5gc"), SubResource("Resource_j8k6u"), SubResource("Resource_0ec1h"), SubResource("Resource_7hgux"), SubResource("Resource_s5sem"), SubResource("Resource_wdx4d"), SubResource("Resource_gmnrv"), SubResource("Resource_osvr5"), SubResource("Resource_mj0st"), SubResource("Resource_kwf4x"), SubResource("Resource_xe6ct"), SubResource("Resource_tba6u"), SubResource("Resource_qq8kj"), SubResource("Resource_giceh"), SubResource("Resource_ljqkc"), SubResource("Resource_et8hj")])
+player_trainer_default_sprite = ExtResource("2_hrc4b")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_right = 1280.0
+offset_bottom = 720.0
+texture = ExtResource("38_7hgux")
+
+[node name="PlayerTrainerSprite" type="Sprite2D" parent="."]
+position = Vector2(120, 492)
+scale = Vector2(0.568848, 0.568848)
+texture = ExtResource("2_hrc4b")
+
+[node name="OpponentTrainerSprite" type="Sprite2D" parent="."]
+position = Vector2(1133, 147)
+scale = Vector2(0.285156, 0.285156)
+texture = ExtResource("3_sgm0l")
+
+[node name="PlayerUnamonSprite" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(284, 417)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("1_gkmpl")
+
+[node name="OpponentUnamonSprite" type="Sprite2D" parent="."]
+position = Vector2(926, 185)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("2_3mvhd")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = 503.0
+offset_right = 854.0
+offset_bottom = 720.0
+grow_vertical = 0
+color = Color(0.0333002, 0.0805121, 0, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 854.0
+offset_top = 503.0
+offset_right = 1280.0
+offset_bottom = 720.0
+grow_vertical = 0
+color = Color(0.0121286, 0.0341638, 4.51226e-09, 1)
+
+[node name="UILayer" type="CanvasLayer" parent="."]
+
+[node name="PlayerInfo" type="VBoxContainer" parent="UILayer"]
+anchors_preset = -1
+anchor_left = 1.0
+anchor_top = 0.971
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -433.0
+offset_top = -351.12
+offset_right = -276.0
+offset_bottom = -240.0
+grow_horizontal = 0
+grow_vertical = 0
+alignment = 2
+
+[node name="PlayerUnamonName" type="Label" parent="UILayer/PlayerInfo"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Smoglet"
+horizontal_alignment = 2
+
+[node name="PlayerHPBar" type="ProgressBar" parent="UILayer/PlayerInfo"]
+layout_mode = 2
+
+[node name="PlayerHPText" type="Label" parent="UILayer/PlayerInfo"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "0/100"
+horizontal_alignment = 2
+
+[node name="OpponentInfo" type="VBoxContainer" parent="UILayer"]
+offset_left = 31.0
+offset_top = 19.0
+offset_right = 224.0
+offset_bottom = 151.0
+
+[node name="OpponentUnamonName" type="Label" parent="UILayer/OpponentInfo"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Marinawk"
+
+[node name="OpponentHPBar" type="ProgressBar" parent="UILayer/OpponentInfo"]
+layout_mode = 2
+
+[node name="OpponentHPText" type="Label" parent="UILayer/OpponentInfo"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "99/100"
+
+[node name="BattleLog" type="Label" parent="UILayer"]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 9.0
+offset_top = -219.0
+offset_right = 770.0
+offset_bottom = -3.0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 35
+text = "Smoglet has appeared!"
+autowrap_mode = 2
+
+[node name="ActionMenu" type="HBoxContainer" parent="UILayer"]
+offset_left = 895.0
+offset_top = 566.0
+offset_right = 1247.0
+offset_bottom = 643.0
+
+[node name="FightButton" type="Button" parent="UILayer/ActionMenu"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "FIGHT"
+
+[node name="SwitchButton" type="Button" parent="UILayer/ActionMenu"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "SWITCH"
+
+[node name="MoveMenu" type="GridContainer" parent="UILayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -256.0
+offset_top = -131.0
+offset_right = 174.0
+offset_bottom = 83.0
+grow_horizontal = 2
+grow_vertical = 2
+columns = 2
+
+[node name="Move1Button" type="Button" parent="UILayer/MoveMenu"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Move 1"
+
+[node name="Move2Button" type="Button" parent="UILayer/MoveMenu"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Move 2"
+
+[node name="Move3Button" type="Button" parent="UILayer/MoveMenu"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Move 3"
+
+[node name="Move4Button" type="Button" parent="UILayer/MoveMenu"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Move 4"
+
+[node name="SwitchMenu" type="VBoxContainer" parent="UILayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -432.0
+offset_top = -254.5
+offset_right = 432.0
+offset_bottom = 254.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GameOverLabel" type="Label" parent="UILayer"]
+visible = false
+offset_left = 2.0
+offset_top = 156.0
+offset_right = 1278.0
+offset_bottom = 464.0
+theme_override_font_sizes/font_size = 50
+text = "GAME OVER"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SoundHit" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_sdfhe")
+
+[node name="SoundFaint" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_hrc4b")
+
+[node name="SoundSelect" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_sgm0l")
+
+[node name="BattleMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_a4ns4")
