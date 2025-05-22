@@ -320,6 +320,11 @@ offset_right = 1280.0
 offset_bottom = 720.0
 texture = ExtResource("38_7hgux")
 
+[node name="PlayerUnamonSprite" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(284, 417)
+scale = Vector2(0.3, 0.3)
+
 [node name="PlayerTrainerSprite" type="Sprite2D" parent="."]
 position = Vector2(120, 492)
 scale = Vector2(0.568848, 0.568848)
@@ -329,11 +334,6 @@ texture = ExtResource("2_hrc4b")
 position = Vector2(1133, 147)
 scale = Vector2(0.285156, 0.285156)
 texture = ExtResource("3_sgm0l")
-
-[node name="PlayerUnamonSprite" type="Sprite2D" parent="."]
-texture_filter = 1
-position = Vector2(284, 417)
-scale = Vector2(0.3, 0.3)
 
 [node name="OpponentUnamonSprite" type="Sprite2D" parent="."]
 position = Vector2(926, 185)
