@@ -6,10 +6,16 @@ extends Node2D
 @export var opponent_trainer_sprite_entries: Array[SpriteEntry]
 @export var player_trainer_default_sprite: Texture2D
 
+# --- EXPORTED SOUNDS ---
+@export var battle_music: AudioStream
+@export var hit_sound: AudioStream
+@export var faint_sound: AudioStream
+@export var select_sound: AudioStream
+
 # Helper dictionaries for quick lookup, populated in _ready()
 var _unamon_textures_map: Dictionary = {}
 var _opponent_trainer_textures_map: Dictionary = {}
-
+var _unamon_cry_sounds_map: Dictionary = {}
 
 # --- UI Node References ---
 @onready var player_unamon_sprite_node: Sprite2D = $PlayerUnamonSprite
@@ -46,6 +52,7 @@ var _opponent_trainer_textures_map: Dictionary = {}
 @onready var sound_faint: AudioStreamPlayer = $SoundFaint
 @onready var sound_select: AudioStreamPlayer = $SoundSelect
 @onready var sound_battle_music: AudioStreamPlayer = $BattleMusic
+@onready var sound_cry: AudioStreamPlayer = $SoundCry
 
 # --- Battle State Variables ---
 var player_team: Array = []
@@ -70,7 +77,8 @@ var current_log_display_array : Array[String] = []
 const LEVEL = 50
 const TYPEWRITER_DELAY = 0.03
 const MESSAGE_DELAY = 0.75 # Increased slightly for readability
-
+const CRY_DUCK_VOLUME = -10.0 # Volume in dB to duck the battle music during cries
+const NORMAL_MUSIC_VOLUME = 0.0 # Normal volume for battle music
 
 # --- Initialization ---
 func _ready():
@@ -79,6 +87,8 @@ func _ready():
 	for entry in unamon_sprite_entries:
 		if entry and entry.entry_name != "" and entry.texture:
 			_unamon_textures_map[entry.entry_name] = entry.texture
+			if entry.cry_sound:
+				_unamon_cry_sounds_map[entry.entry_name] = entry.cry_sound
 		elif entry:
 			printerr("Invalid Unamon SpriteEntry: Name or Texture missing. Name: '", entry.entry_name, "'")
 
@@ -87,6 +97,16 @@ func _ready():
 			_opponent_trainer_textures_map[entry.entry_name] = entry.texture
 		elif entry:
 			printerr("Invalid Opponent Trainer SpriteEntry: Name or Texture missing. Name: '", entry.entry_name, "'")
+
+	# Set up sound streams
+	if battle_music:
+		sound_battle_music.stream = battle_music
+	if hit_sound:
+		sound_hit.stream = hit_sound
+	if faint_sound:
+		sound_faint.stream = faint_sound
+	if select_sound:
+		sound_select.stream = select_sound
 
 	fight_button.pressed.connect(_on_fight_button_pressed)
 	switch_button.pressed.connect(_on_switch_button_pressed)
@@ -101,6 +121,41 @@ func _ready():
 	sound_battle_music.play()
 	start_new_battle()
 
+# --- Sound Management ---
+func play_unamon_cry(unamon_name: String):
+	if _unamon_cry_sounds_map.has(unamon_name):
+		sound_cry.stream = _unamon_cry_sounds_map[unamon_name]
+		sound_battle_music.volume_db = CRY_DUCK_VOLUME
+		sound_cry.play()
+		await sound_cry.finished
+		sound_battle_music.volume_db = NORMAL_MUSIC_VOLUME
+
+# --- Battle Entry Animation ---
+func play_battle_entry_animation(is_player: bool):
+	var sprite_node = player_unamon_sprite_node if is_player else opponent_unamon_sprite_node
+	var unamon = player_active_unamon if is_player else opponent_active_unamon
+	
+	# Update sprite texture immediately
+	if unamon and _unamon_textures_map.has(unamon.name):
+		sprite_node.texture = _unamon_textures_map[unamon.name]
+	else:
+		printerr("Unamon sprite for '", unamon.name, "' not found in configured sprite entries!")
+		sprite_node.texture = null
+	
+	# Reset sprite position and scale
+	sprite_node.position = Vector2(284, 417) if is_player else Vector2(926, 185)
+	sprite_node.scale = Vector2(0.3, 0.3)
+	sprite_node.visible = true
+	
+	# Entry animation
+	var tween = create_tween()
+	tween.tween_property(sprite_node, "position:y", sprite_node.position.y - 50, 0.3)
+	tween.tween_property(sprite_node, "position:y", sprite_node.position.y, 0.3)
+	
+	# Play cry sound
+	await play_unamon_cry(unamon.name)
+
+# --- Battle State Management ---
 func start_new_battle():
 	player_team = []
 	opponent_team = []
@@ -156,13 +211,16 @@ func start_new_battle():
 	opponent_active_unamon_index = 0
 	opponent_active_unamon = opponent_team[opponent_active_unamon_index]
 
-	update_unamon_display(player_active_unamon, true, true) # is_initial_setup_or_direct_set = true
-	update_unamon_display(opponent_active_unamon, false, true) # is_initial_setup_or_direct_set = true
+	# Play entry animations and cries
+	await play_battle_entry_animation(false) # Opponent's Unamon enters first
+	await play_battle_entry_animation(true)  # Then player's Unamon enters
+
+	update_unamon_display(player_active_unamon, true, true)
+	update_unamon_display(opponent_active_unamon, false, true)
 	update_hp_display(player_active_unamon, true)
 	update_hp_display(opponent_active_unamon, false)
 
 	set_battle_phase("PROCESSING_MESSAGES")
-
 
 # --- Battle Log Management ---
 func add_battle_log_message_to_queue(message: String):
