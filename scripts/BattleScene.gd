@@ -149,16 +149,22 @@ func play_battle_entry_animation(is_player: bool) -> void:
 		return
 	
 	sprite_node.texture = _unamon_textures_map[unamon.name]
-	sprite_node.position = Vector2(284, 417) if is_player else Vector2(926, 185)
+	
+	# Set initial position and scale
+	var start_pos = Vector2(284, 417) if is_player else Vector2(926, 185)
+	var end_pos = start_pos
+	var slide_offset = Vector2(-100, 0) if is_player else Vector2(100, 0)
+	
+	sprite_node.position = start_pos + slide_offset
 	sprite_node.scale = Vector2(0.3, 0.3)
-	sprite_node.modulate = Color(0.5, 0.8, 1.0, 0.0)
+	sprite_node.modulate = Color(1, 1, 1, 0)
 	sprite_node.visible = true
 	
 	var cry_task = play_unamon_cry(unamon.name)
 	
 	var tween = create_tween().set_parallel(true)
-	tween.tween_property(sprite_node, "modulate:a", 1.0, 3.0).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-	tween.tween_property(sprite_node, "modulate", Color(1.0, 1.0, 1.0, 1.0), 3.0).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	tween.tween_property(sprite_node, "position", end_pos, 0.5).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	tween.tween_property(sprite_node, "modulate:a", 1.0, 0.3).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 	
 	await tween.finished
 	await cry_task
@@ -715,6 +721,7 @@ func opponent_switch_fainted() -> void:
 		else:
 			current_actor = "PLAYER"
 			set_battle_phase("ACTION_SELECT")
+			action_menu.visible = true  # Explicitly show the action menu
 	else:
 		game_over(true)
 
