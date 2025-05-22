@@ -122,13 +122,13 @@ func _ready():
 	start_new_battle()
 
 # --- Sound Management ---
-func play_unamon_cry(unamon_name: String):
+func play_unamon_cry(unamon_name: String) -> Signal:
 	if _unamon_cry_sounds_map.has(unamon_name):
 		sound_cry.stream = _unamon_cry_sounds_map[unamon_name]
 		sound_battle_music.volume_db = CRY_DUCK_VOLUME
 		sound_cry.play()
-		await sound_cry.finished
-		sound_battle_music.volume_db = NORMAL_MUSIC_VOLUME
+		return sound_cry.finished
+	return get_tree().create_timer(0.0).timeout
 
 # --- Battle Entry Animation ---
 func play_battle_entry_animation(is_player: bool):
@@ -150,6 +150,9 @@ func play_battle_entry_animation(is_player: bool):
 	sprite_node.modulate = Color(0.5, 0.8, 1.0, 0.0)
 	sprite_node.visible = true
 	
+	# Start both the cry and animation simultaneously
+	var cry_task = play_unamon_cry(unamon.name)
+	
 	# Create a parallel tween for color and opacity
 	var tween = create_tween().set_parallel(true)
 	
@@ -159,10 +162,9 @@ func play_battle_entry_animation(is_player: bool):
 	# Shift from holographic blue to normal color over 3 seconds
 	tween.tween_property(sprite_node, "modulate", Color(1.0, 1.0, 1.0, 1.0), 3.0).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	
+	# Wait for both the animation and cry to finish
 	await tween.finished
-	
-	# Play cry sound after materialization
-	await play_unamon_cry(unamon.name)
+	await cry_task
 
 # --- Battle State Management ---
 func start_new_battle():
@@ -728,6 +730,9 @@ func play_switch_in_animation(sprite: Sprite2D):
 	sprite.modulate = Color(0.5, 0.8, 1.0, 0.0)  # Start with holographic blue at 0 opacity
 	sprite.visible = true      # Make visible
 	
+	# Start both the cry and animation simultaneously
+	var cry_task = play_unamon_cry(active_unamon_for_sprite.name)
+	
 	# Create a parallel tween for color and opacity
 	var tween = create_tween().set_parallel(true)
 	
@@ -737,7 +742,9 @@ func play_switch_in_animation(sprite: Sprite2D):
 	# Shift from holographic blue to normal color over 3 seconds
 	tween.tween_property(sprite, "modulate", Color(1.0, 1.0, 1.0, 1.0), 3.0).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	
+	# Wait for both the animation and cry to finish
 	await tween.finished
+	await cry_task
 
 
 func game_over(player_wins: bool):
