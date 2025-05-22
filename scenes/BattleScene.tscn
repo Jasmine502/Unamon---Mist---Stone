@@ -331,17 +331,13 @@ scale = Vector2(0.285156, 0.285156)
 texture = ExtResource("3_sgm0l")
 
 [node name="PlayerUnamonSprite" type="Sprite2D" parent="."]
-visible = false
 texture_filter = 1
 position = Vector2(284, 417)
 scale = Vector2(0.3, 0.3)
-texture = ExtResource("1_gkmpl")
 
 [node name="OpponentUnamonSprite" type="Sprite2D" parent="."]
-visible = false
 position = Vector2(926, 185)
 scale = Vector2(0.3, 0.3)
-texture = ExtResource("2_3mvhd")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 anchors_preset = 2

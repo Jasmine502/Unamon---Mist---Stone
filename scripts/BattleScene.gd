@@ -59,6 +59,7 @@ var player_team: Array = []
 var opponent_team: Array = []
 var player_active_unamon_index: int = 0
 var opponent_active_unamon_index: int = 0
+var has_opponent_switched_after_faint := false
 
 var player_active_unamon: Dictionary
 var opponent_active_unamon: Dictionary
@@ -71,7 +72,7 @@ var battle_phase: String = "INIT"
 
 var battle_log_queue: Array[String] = []
 var is_displaying_log_message: bool = false
-const MAX_LOG_LINES = 5
+const MAX_LOG_LINES = 4
 var current_log_display_array : Array[String] = []
 
 const LEVEL = 50
@@ -175,6 +176,7 @@ func start_new_battle():
 	battle_log_label.text = ""
 	turn_action_taken_by_player = false
 	turn_action_taken_by_opponent = false
+	has_opponent_switched_after_faint = false  # Reset the switch flag
 
 	add_battle_log_message_to_queue("Battle Started!")
 
@@ -221,6 +223,12 @@ func start_new_battle():
 	if opponent_team.is_empty(): printerr("Opponent team for ", chosen_opponent_name, " is empty!"); get_tree().quit(); return
 	opponent_active_unamon_index = 0
 	opponent_active_unamon = opponent_team[opponent_active_unamon_index]
+
+	# Ensure sprites are properly reset before starting
+	player_unamon_sprite_node.visible = true
+	opponent_unamon_sprite_node.visible = true
+	player_unamon_sprite_node.modulate = Color.WHITE
+	opponent_unamon_sprite_node.modulate = Color.WHITE
 
 	# Play entry animations and cries
 	await play_battle_entry_animation(false) # Opponent's Unamon enters first
@@ -292,15 +300,17 @@ func process_next_log_message():
 				game_over(false) # No Unamon left
 
 		elif battle_phase == "AWAIT_OPPONENT_FAINT_SWITCH":
-			var can_switch_opponent = false
-			for unamon_member in opponent_team:
-				if unamon_member.calculated_stats.current_hp > 0:
-					can_switch_opponent = true
-					break
-			if can_switch_opponent:
-				opponent_switch_fainted() # This will handle the switch and subsequent messages
-			else:
-				game_over(true) # Opponent has no Unamon left
+			if not has_opponent_switched_after_faint:
+				var can_switch_opponent = false
+				for unamon_member in opponent_team:
+					if unamon_member.calculated_stats.current_hp > 0:
+						can_switch_opponent = true
+						break
+				if can_switch_opponent:
+					has_opponent_switched_after_faint = true
+					await opponent_switch_fainted()
+				else:
+					game_over(true) # Opponent has no Unamon left
 		return
 
 	is_displaying_log_message = true
@@ -333,15 +343,13 @@ func update_unamon_display(unamon: Dictionary, is_player: bool, is_initial_setup
 	if unamon and unamon.has("name"):
 		if _unamon_textures_map.has(unamon.name):
 			sprite_node_to_update.texture = _unamon_textures_map[unamon.name]
+			# Always make sprite visible when setting texture
+			sprite_node_to_update.visible = true
+			if is_initial_setup_or_direct_set:
+				sprite_node_to_update.modulate = Color.WHITE
 		else:
 			printerr("Unamon sprite for '", unamon.name, "' not found in configured sprite entries!")
 			sprite_node_to_update.texture = null
-
-		if is_initial_setup_or_direct_set: # Only set visible & modulate if not part of a switch-in anim
-			sprite_node_to_update.modulate = Color.WHITE
-			sprite_node_to_update.visible = true
-		else:
-			# For switch-in, just set the texture and make it invisible
 			sprite_node_to_update.visible = false
 
 		name_label.text = unamon.name + " (Lvl " + str(LEVEL) + ")"
@@ -350,6 +358,12 @@ func update_unamon_display(unamon: Dictionary, is_player: bool, is_initial_setup
 		sprite_node_to_update.visible = false # Hide if no valid Unamon
 		name_label.text = "---"
 
+	# Print debug information
+	print("Updating Unamon display for ", "player" if is_player else "opponent")
+	print("Unamon name: ", unamon.name if unamon and unamon.has("name") else "none")
+	print("Sprite visible: ", sprite_node_to_update.visible)
+	print("Has texture: ", sprite_node_to_update.texture != null)
+	print("Sprite position: ", sprite_node_to_update.position)
 
 func update_hp_display(unamon: Dictionary, is_player: bool):
 	if unamon:
@@ -362,6 +376,8 @@ func update_hp_display(unamon: Dictionary, is_player: bool):
 func set_battle_phase(new_phase: String):
 	battle_phase = new_phase
 	#print("Battle Phase set to: ", battle_phase) # For debugging
+	
+	# Ensure menus are properly shown/hidden based on phase
 	action_menu.visible = (battle_phase == "ACTION_SELECT" and not is_displaying_log_message)
 	move_menu.visible = (battle_phase == "MOVE_SELECT")
 	
@@ -373,8 +389,10 @@ func set_battle_phase(new_phase: String):
 		switch_menu_container.visible = false
 
 	# Trigger UI updates based on phase
-	if battle_phase == "MOVE_SELECT": display_moves_for_player()
-	elif battle_phase == "SWITCH_SELECT": display_switch_options_for_player(false)
+	if battle_phase == "MOVE_SELECT": 
+		display_moves_for_player()
+	elif battle_phase == "SWITCH_SELECT": 
+		display_switch_options_for_player(false)
 	# AWAIT_PLAYER_FAINT_SWITCH display is handled in process_next_log_message
 
 	# If we set phase to processing and nothing is currently displaying, kick it off
@@ -475,10 +493,23 @@ func _on_player_select_switch_unamon(unamon_idx: int, was_faint_switch: bool):
 	update_unamon_display(player_active_unamon, true, false) # is_initial_setup_or_direct_set = false
 	update_hp_display(player_active_unamon, true)
 	
+	# Ensure sprite is visible before starting switch-in animation
+	player_unamon_sprite_node.visible = true
 	await play_switch_in_animation(player_unamon_sprite_node) # Await for anim to complete
 	
 	if not was_faint_switch: 
 		turn_action_taken_by_player = true
+		# After switching, determine next actor or start new round
+		determine_next_actor_or_new_round()
+	else:
+		# For faint switches, we need to check if opponent needs to switch too
+		if opponent_active_unamon.calculated_stats.current_hp <= 0 and not opponent_unamon_sprite_node.visible:
+			set_battle_phase("AWAIT_OPPONENT_FAINT_SWITCH")
+		else:
+			# If opponent is still alive, continue with normal battle flow
+			determine_next_actor_or_new_round()
+	
+	# Ensure phase advancement after switch is complete
 	set_battle_phase("PROCESSING_MESSAGES")
 
 
@@ -520,6 +551,16 @@ func execute_turn_sequence(attacker: Dictionary, defender: Dictionary, move: Dic
 			# For now, we'll let the message queue handle the animation call via process_next_log_message
 			# by awaiting it there. To ensure it plays before switch prompt:
 			await play_faint_animation(defender_sprite) # Await here to ensure it's done before next phase logic
+			
+			# Reset the switch flag when an opponent Unamon faints
+			if attacker_is_player:
+				has_opponent_switched_after_faint = false
+			
+			# Set the appropriate phase based on who fainted
+			if attacker_is_player:
+				set_battle_phase("AWAIT_OPPONENT_FAINT_SWITCH")
+			else:
+				set_battle_phase("AWAIT_PLAYER_FAINT_SWITCH")
 
 	set_battle_phase("PROCESSING_MESSAGES") # This will process all queued messages including faint
 
@@ -670,7 +711,16 @@ func opponent_switch_fainted():
 		
 		await play_switch_in_animation(opponent_unamon_sprite_node) # Await for anim to complete
 		
-		set_battle_phase("PROCESSING_MESSAGES") 
+		# After opponent switches, check if we need to start a new round or continue the current one
+		if turn_action_taken_by_player:
+			# If player has already acted this round, start a new round
+			start_new_round_sequence()
+		else:
+			# If player hasn't acted yet, let them continue their turn
+			current_actor = "PLAYER"
+			set_battle_phase("ACTION_SELECT")
+		
+		# Removed the set_battle_phase("PROCESSING_MESSAGES") call as it's handled by the caller
 	else: # No Unamon left for opponent
 		game_over(true) # Player wins
 
@@ -719,7 +769,7 @@ func play_switch_out_animation(sprite: Sprite2D):
 func play_switch_in_animation(sprite: Sprite2D):
 	# Ensure correct texture for the NEW active Unamon
 	var active_unamon_for_sprite = player_active_unamon if sprite == player_unamon_sprite_node else opponent_active_unamon
-	if active_unamon_for_sprite and _unamon_textures_map.has(active_unamon_for_sprite.name): # Check active_unamon_for_sprite
+	if active_unamon_for_sprite and _unamon_textures_map.has(active_unamon_for_sprite.name):
 		sprite.texture = _unamon_textures_map[active_unamon_for_sprite.name]
 	else:
 		var name_to_print = active_unamon_for_sprite.name if active_unamon_for_sprite else "Unknown Unamon"
@@ -727,8 +777,8 @@ func play_switch_in_animation(sprite: Sprite2D):
 		sprite.texture = null 
 
 	# Reset properties for a fresh animation
+	sprite.visible = true
 	sprite.modulate = Color(0.5, 0.8, 1.0, 0.0)  # Start with holographic blue at 0 opacity
-	sprite.visible = true      # Make visible
 	
 	# Start both the cry and animation simultaneously
 	var cry_task = play_unamon_cry(active_unamon_for_sprite.name)
