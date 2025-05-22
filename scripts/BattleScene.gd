@@ -145,14 +145,23 @@ func play_battle_entry_animation(is_player: bool):
 	# Reset sprite position and scale
 	sprite_node.position = Vector2(284, 417) if is_player else Vector2(926, 185)
 	sprite_node.scale = Vector2(0.3, 0.3)
+	
+	# Start with holographic blue at 0 opacity
+	sprite_node.modulate = Color(0.5, 0.8, 1.0, 0.0)
 	sprite_node.visible = true
 	
-	# Entry animation
-	var tween = create_tween()
-	tween.tween_property(sprite_node, "position:y", sprite_node.position.y - 50, 0.3)
-	tween.tween_property(sprite_node, "position:y", sprite_node.position.y, 0.3)
+	# Create a parallel tween for color and opacity
+	var tween = create_tween().set_parallel(true)
 	
-	# Play cry sound
+	# Fade in over 3 seconds
+	tween.tween_property(sprite_node, "modulate:a", 1.0, 3.0).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	
+	# Shift from holographic blue to normal color over 3 seconds
+	tween.tween_property(sprite_node, "modulate", Color(1.0, 1.0, 1.0, 1.0), 3.0).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	
+	await tween.finished
+	
+	# Play cry sound after materialization
 	await play_unamon_cry(unamon.name)
 
 # --- Battle State Management ---
@@ -329,7 +338,9 @@ func update_unamon_display(unamon: Dictionary, is_player: bool, is_initial_setup
 		if is_initial_setup_or_direct_set: # Only set visible & modulate if not part of a switch-in anim
 			sprite_node_to_update.modulate = Color.WHITE
 			sprite_node_to_update.visible = true
-		# If it's for a switch-in, play_switch_in_animation will handle visibility and alpha
+		else:
+			# For switch-in, just set the texture and make it invisible
+			sprite_node_to_update.visible = false
 
 		name_label.text = unamon.name + " (Lvl " + str(LEVEL) + ")"
 	else: # Unamon data is null or invalid
@@ -713,12 +724,19 @@ func play_switch_in_animation(sprite: Sprite2D):
 		printerr("Texture not found for ", name_to_print, " in switch_in_animation")
 		sprite.texture = null 
 
-	sprite.modulate = Color.WHITE # Reset modulation fully (opaque white before alpha)
-	sprite.modulate.a = 0.0    # Start transparent
-	sprite.visible = true      # Make visible (so alpha tween has an effect on a visible node)
+	# Reset properties for a fresh animation
+	sprite.modulate = Color(0.5, 0.8, 1.0, 0.0)  # Start with holographic blue at 0 opacity
+	sprite.visible = true      # Make visible
 	
-	var tween = create_tween()
-	tween.tween_property(sprite, "modulate:a", 1.0, 0.3) 
+	# Create a parallel tween for color and opacity
+	var tween = create_tween().set_parallel(true)
+	
+	# Fade in over 3 seconds
+	tween.tween_property(sprite, "modulate:a", 1.0, 3.0).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	
+	# Shift from holographic blue to normal color over 3 seconds
+	tween.tween_property(sprite, "modulate", Color(1.0, 1.0, 1.0, 1.0), 3.0).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	
 	await tween.finished
 
 
