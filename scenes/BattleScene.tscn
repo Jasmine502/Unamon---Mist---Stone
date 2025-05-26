@@ -1,4 +1,4 @@
-[gd_scene load_steps=100 format=3 uid="uid://drnv6le1b63ev"]
+[gd_scene load_steps=127 format=3 uid="uid://drnv6le1b63ev"]
 
 [ext_resource type="Script" uid="uid://cooc50ixagou3" path="res://scripts/BattleScene.gd" id="1_bsu3s"]
 [ext_resource type="Texture2D" uid="uid://dq0oh3lh6ey71" path="res://sprites/unamon/smoglet.png" id="1_gkmpl"]
@@ -61,6 +61,19 @@
 [ext_resource type="Texture2D" uid="uid://bo0wo61ynxxu6" path="res://sprites/trainers/trainer_sonia.png" id="38_gmnrv"]
 [ext_resource type="Texture2D" uid="uid://bhf1luh34sf5l" path="res://sprites/trainers/trainer_trix.png" id="39_osvr5"]
 [ext_resource type="Texture2D" uid="uid://vtxlkjxtlfia" path="res://sprites/trainers/trainer_xerberus.png" id="40_osvr5"]
+[ext_resource type="Texture2D" uid="uid://bvgq34lbr6u06" path="res://sprites/trainers/trainer_otto.png" id="56_inodm"]
+[ext_resource type="Texture2D" uid="uid://c24nuwfhlayl5" path="res://sprites/trainers/trainer_tobias.png" id="57_k2bpt"]
+[ext_resource type="Texture2D" uid="uid://duksdwrjtthkq" path="res://sprites/trainers/trainer_blackshadow.png" id="58_lyhyx"]
+[ext_resource type="Texture2D" uid="uid://cubktd246bet8" path="res://sprites/trainers/trainer_dede.png" id="59_mtgyj"]
+[ext_resource type="Texture2D" uid="uid://omxt4pe35nhe" path="res://sprites/trainers/trainer_moonmaniac.png" id="60_ch463"]
+[ext_resource type="Texture2D" uid="uid://byaamueaxjyrp" path="res://sprites/trainers/trainer_ohayo.png" id="61_h5qe7"]
+[ext_resource type="Texture2D" uid="uid://ne33a0x8l2xi" path="res://sprites/trainers/trainer_pjr.png" id="62_fnady"]
+[ext_resource type="Texture2D" uid="uid://xh12dx2f3hi1" path="res://sprites/trainers/trainer_postjay.png" id="63_oqnmf"]
+[ext_resource type="Texture2D" uid="uid://887r0uikccp1" path="res://sprites/trainers/trainer_sergeant.png" id="64_642jd"]
+[ext_resource type="Texture2D" uid="uid://djfb505od1ida" path="res://sprites/trainers/trainer_sunman.png" id="65_ydwjb"]
+[ext_resource type="Texture2D" uid="uid://okqwv4rqui6h" path="res://sprites/trainers/trainer_smiley.png" id="66_y7qg8"]
+[ext_resource type="Texture2D" uid="uid://bektwt24morq7" path="res://sprites/trainers/trainer_supernova.png" id="67_3ypt2"]
+[ext_resource type="Texture2D" uid="uid://b06c254tnuwev" path="res://sprites/trainers/trainer_coolstick.png" id="68_at8rk"]
 
 [sub_resource type="Resource" id="Resource_ahh7x"]
 script = ExtResource("2_vtyuj")
@@ -305,17 +318,101 @@ entry_name = "Xerberus"
 texture = ExtResource("40_osvr5")
 metadata/_custom_type_script = "uid://bkn5u8haatvsm"
 
+[sub_resource type="Resource" id="Resource_c62uo"]
+script = ExtResource("2_vtyuj")
+entry_name = "Otto"
+texture = ExtResource("56_inodm")
+metadata/_custom_type_script = "uid://bkn5u8haatvsm"
+
+[sub_resource type="Resource" id="Resource_uw16o"]
+script = ExtResource("2_vtyuj")
+entry_name = "Tobias"
+texture = ExtResource("57_k2bpt")
+metadata/_custom_type_script = "uid://bkn5u8haatvsm"
+
+[sub_resource type="Resource" id="Resource_4eqnc"]
+script = ExtResource("2_vtyuj")
+entry_name = "BlackShadow"
+texture = ExtResource("58_lyhyx")
+metadata/_custom_type_script = "uid://bkn5u8haatvsm"
+
+[sub_resource type="Resource" id="Resource_l035x"]
+script = ExtResource("2_vtyuj")
+entry_name = "DeDe"
+texture = ExtResource("59_mtgyj")
+metadata/_custom_type_script = "uid://bkn5u8haatvsm"
+
+[sub_resource type="Resource" id="Resource_glcsc"]
+script = ExtResource("2_vtyuj")
+entry_name = "MoonManiac"
+texture = ExtResource("60_ch463")
+metadata/_custom_type_script = "uid://bkn5u8haatvsm"
+
+[sub_resource type="Resource" id="Resource_82hfx"]
+script = ExtResource("2_vtyuj")
+entry_name = "Ohayo"
+texture = ExtResource("61_h5qe7")
+metadata/_custom_type_script = "uid://bkn5u8haatvsm"
+
+[sub_resource type="Resource" id="Resource_xkysh"]
+script = ExtResource("2_vtyuj")
+entry_name = "PJR"
+texture = ExtResource("62_fnady")
+metadata/_custom_type_script = "uid://bkn5u8haatvsm"
+
+[sub_resource type="Resource" id="Resource_0whdi"]
+script = ExtResource("2_vtyuj")
+entry_name = "PostJay"
+texture = ExtResource("63_oqnmf")
+metadata/_custom_type_script = "uid://bkn5u8haatvsm"
+
+[sub_resource type="Resource" id="Resource_qmeo0"]
+script = ExtResource("2_vtyuj")
+entry_name = "Sergeant"
+texture = ExtResource("64_642jd")
+metadata/_custom_type_script = "uid://bkn5u8haatvsm"
+
+[sub_resource type="Resource" id="Resource_pbf2m"]
+script = ExtResource("2_vtyuj")
+entry_name = "SunMan"
+texture = ExtResource("65_ydwjb")
+metadata/_custom_type_script = "uid://bkn5u8haatvsm"
+
+[sub_resource type="Resource" id="Resource_788cc"]
+script = ExtResource("2_vtyuj")
+entry_name = "Smiley"
+texture = ExtResource("66_y7qg8")
+metadata/_custom_type_script = "uid://bkn5u8haatvsm"
+
+[sub_resource type="Resource" id="Resource_podn7"]
+script = ExtResource("2_vtyuj")
+entry_name = "SuperNova"
+texture = ExtResource("67_3ypt2")
+metadata/_custom_type_script = "uid://bkn5u8haatvsm"
+
+[sub_resource type="Resource" id="Resource_3sk3j"]
+script = ExtResource("2_vtyuj")
+entry_name = "CoolStick"
+texture = ExtResource("68_at8rk")
+metadata/_custom_type_script = "uid://bkn5u8haatvsm"
+
+[sub_resource type="Resource" id="Resource_joob5"]
+script = ExtResource("2_vtyuj")
+entry_name = "PJ"
+texture = ExtResource("34_nd6w6")
+metadata/_custom_type_script = "uid://bkn5u8haatvsm"
+
 [node name="BattleScene" type="Node2D"]
 script = ExtResource("1_bsu3s")
 unamon_sprite_entries = Array[ExtResource("2_vtyuj")]([SubResource("Resource_ahh7x"), SubResource("Resource_h7erw"), SubResource("Resource_s45ie"), SubResource("Resource_242tl"), SubResource("Resource_v6eoa"), SubResource("Resource_lckn5"), SubResource("Resource_prxlm"), SubResource("Resource_tse8l"), SubResource("Resource_so6w4"), SubResource("Resource_3jfyn"), SubResource("Resource_qka88"), SubResource("Resource_b7xr6"), SubResource("Resource_3uy3p"), SubResource("Resource_ej4si"), SubResource("Resource_gbss3")])
-opponent_trainer_sprite_entries = Array[ExtResource("2_vtyuj")]([SubResource("Resource_1d3uh"), SubResource("Resource_3a8rw"), SubResource("Resource_sbyit"), SubResource("Resource_tx5gc"), SubResource("Resource_j8k6u"), SubResource("Resource_0ec1h"), SubResource("Resource_7hgux"), SubResource("Resource_s5sem"), SubResource("Resource_wdx4d"), SubResource("Resource_gmnrv"), SubResource("Resource_osvr5"), SubResource("Resource_mj0st"), SubResource("Resource_kwf4x"), SubResource("Resource_xe6ct"), SubResource("Resource_tba6u"), SubResource("Resource_qq8kj"), SubResource("Resource_giceh"), SubResource("Resource_ljqkc"), SubResource("Resource_et8hj"), SubResource("Resource_7e6db"), SubResource("Resource_uta05"), SubResource("Resource_nd6w6"), SubResource("Resource_sxsuf")])
+opponent_trainer_sprite_entries = Array[ExtResource("2_vtyuj")]([SubResource("Resource_1d3uh"), SubResource("Resource_3a8rw"), SubResource("Resource_sbyit"), SubResource("Resource_tx5gc"), SubResource("Resource_j8k6u"), SubResource("Resource_0ec1h"), SubResource("Resource_7hgux"), SubResource("Resource_s5sem"), SubResource("Resource_wdx4d"), SubResource("Resource_gmnrv"), SubResource("Resource_osvr5"), SubResource("Resource_mj0st"), SubResource("Resource_kwf4x"), SubResource("Resource_xe6ct"), SubResource("Resource_tba6u"), SubResource("Resource_qq8kj"), SubResource("Resource_giceh"), SubResource("Resource_ljqkc"), SubResource("Resource_et8hj"), SubResource("Resource_7e6db"), SubResource("Resource_uta05"), SubResource("Resource_nd6w6"), SubResource("Resource_sxsuf"), SubResource("Resource_c62uo"), SubResource("Resource_uw16o"), SubResource("Resource_4eqnc"), SubResource("Resource_l035x"), SubResource("Resource_glcsc"), SubResource("Resource_82hfx"), SubResource("Resource_xkysh"), SubResource("Resource_0whdi"), SubResource("Resource_qmeo0"), SubResource("Resource_pbf2m"), SubResource("Resource_788cc"), SubResource("Resource_podn7"), SubResource("Resource_3sk3j"), SubResource("Resource_joob5")])
 player_trainer_default_sprite = ExtResource("2_hrc4b")
 battle_music = ExtResource("7_a4ns4")
 hit_sound = ExtResource("4_sdfhe")
 faint_sound = ExtResource("5_hrc4b")
 select_sound = ExtResource("6_sgm0l")
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="Background" type="TextureRect" parent="."]
 offset_right = 1280.0
 offset_bottom = 720.0
 texture = ExtResource("38_7hgux")

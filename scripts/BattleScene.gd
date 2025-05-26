@@ -95,6 +95,7 @@ var opponent_team: Array = []
 var player_active_unamon_index: int = 0
 var opponent_active_unamon_index: int = 0
 var has_opponent_switched_after_faint := false
+var forced_opponent: String = ""  # New variable to store forced opponent
 
 var player_active_unamon: Dictionary
 var opponent_active_unamon: Dictionary
@@ -121,6 +122,7 @@ func _ready() -> void:
 		printerr("Critical audio resources missing! Battle scene may not function correctly.")
 	
 	sound_battle_music.play()
+	# force_opponent("SuperNova")
 	start_new_battle()
 	
 	# Add failsafe timer to check for potential softlocks
@@ -182,6 +184,13 @@ func start_new_battle() -> void:
 	_setup_opponent_team()
 	_play_initial_animations()
 
+func force_opponent(opponent_name: String) -> void:
+	"""Force a specific opponent for the next battle."""
+	if UnamonData.get_opponent_data(opponent_name).is_empty():
+		printerr("Invalid opponent name: ", opponent_name)
+		return
+	forced_opponent = opponent_name
+
 func _reset_battle_state() -> void:
 	player_team.clear()
 	opponent_team.clear()
@@ -191,6 +200,7 @@ func _reset_battle_state() -> void:
 	turn_action_taken_by_player = false
 	turn_action_taken_by_opponent = false
 	has_opponent_switched_after_faint = false
+	forced_opponent = ""  # Reset forced opponent
 	add_battle_log_message_to_queue("Battle Started!")
 
 func _setup_player_team() -> void:
@@ -221,7 +231,7 @@ func _setup_opponent_team() -> void:
 		get_tree().quit()
 		return
 
-	var chosen_opponent_name = opponent_names_available[randi() % opponent_names_available.size()]
+	var chosen_opponent_name = forced_opponent if not forced_opponent.is_empty() else opponent_names_available[randi() % opponent_names_available.size()]
 	var opponent_info = UnamonData.get_opponent_data(chosen_opponent_name)
 	
 	if opponent_info.is_empty():

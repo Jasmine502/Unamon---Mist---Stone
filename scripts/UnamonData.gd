@@ -217,27 +217,70 @@ const TYPE_EFFECTIVENESS_CHART = {
 const OPPONENTS = {
 	# "TrainerName": {"team": ["Unamon1", "Unamon2", ...]},
 	"Ego":      {"team": ["Wyvorophyll", "Marijuadon", "Ignantom", "Marinawk", "Shocksteed", "Ryno"]},
-	"Brooks":   {"team": ["Ryno", "Cracklesap", "Salamendro", "Flopix", "Sativaur", "Smoglet"]},
-	"Penny":    {"team": ["Salamendro", "Ignantom", "Cryophant", "Shocksteed", "Ryno", "Marinawk"]},
-	"Aimee":    {"team": ["Cryoul", "Flopix", "Smoglet", "Cracklesap", "Sativaur", "Aquilia"]},
+	# Final Team: ["Mamantera", "Tephron", "Chrysogor", "Primoricorn", "Apoploox", "Voidborne"]
+	"Brooks":   {"team": ["Ryno", "Cracklesap", "Flopix"]},
+	# Final Team: ["Sutursa", "Ryno", "Oryzoki", "Cracklesap", "Aquilia"]
+	"Penny":    {"team": ["Ignantom", "Cryophant", "Shocksteed", "Salamendro", "Smoglet"]},
+	# Final Team: ["Mutamania", "Myrkkane", "Apoploox", "Ignantom", "Landignor", "Vocifer"]
+	"Aimee":    {"team": ["Cryoul", "Flopix", "Aquilia", "Smoglet", "Cracklesap"]},
+	# Final Team: ["Cryoul", "Cryophant", "Orgamarina", "Spookspew", "Exvil"]
 	"Amy":      {"team": ["Marinawk", "Flopix", "Aquilia", "Sativaur", "Marijuadon", "Wyvorophyll"]},
-	"Ayla":     {"team": ["Shocksteed", "Salamendro", "Ignantom", "Ryno", "Cryophant", "Marinawk"]},
+	# Final Team: ["Aquamyst", "Marinawk", "Sativaur", "Primoricorn", "Chrysogor", "Sutursa"]
+	"Ayla":     {"team": ["Shocksteed", "Salamendro", "Ignantom", "Ryno", "Wyvorophyll"]},
+	# Final Team: ["Faerumen", "Shocksteed", "Stainana", "Plumaru", "Magmoroch", "Excavolt"]
 	"Bas":      {"team": ["Ryno", "Cracklesap", "Salamendro", "Smoglet", "Cryoul", "Flopix"]},
+	# Final Team: ["Oryzoki", "Ryno", "Titanger", "Salamendro", "Grumbo", "Terravore"]
 	"Dustin":   {"team": ["Salamendro", "Cracklesap", "Shocksteed", "Sativaur", "Flopix", "Smoglet"]},
-	"Esther":   {"team": ["Flopix", "Aquilia", "Sativaur", "Cracklesap", "Smoglet", "Cryoul"]},
-	"Ghost":    {"team": ["Cryoul", "Cryophant", "Ignantom", "Smoglet", "Flamura", "Shocksteed"]},
+	# Final Team: ["Galactortle", "Marijuadon", "Shocksteed", "Sativaur", "Wyfern", "Smoglet"]
+	"Esther":   {"team": ["Flopix", "Aquilia", "Sativaur", "Cracklesap", "Shocksteed"]},
+	# Final Team: ["Tephron", "Chrysogor", "Aquilia", "Gryfleia", "Primoricorn", "Shocksteed"]
+	"Ghost":    {"team": ["Smoglet", "Flamura", "Ignantom", "Cryoul", "Cryophant", "Wyvorophyll"]},
+	# Final Team: ["Mamantera", "Vocifer", "Voidborne", "Ignantom", "Cryolantis", "Apoploox"]
 	"KOL":      {"team": ["Ignantom", "Salamendro", "Ryno", "Shocksteed", "Marinawk", "Wyvorophyll"]},
+	# Final Team: ["Ignantom", "Stainana", "Dhascarab", "Afterwrithe", "Magmoroch", "Ryno"]
 	"Melanie":  {"team": ["Ignantom", "Wyvorophyll", "Marinawk", "Ryno", "Shocksteed", "Cryophant"]},
+	# Final Team: ["Faerumen", "Stainana", "Gryfnosa", "Ferrizari", "Sekhant", "Myrkkane"]
 	"Miyamoto": {"team": ["Wyvorophyll", "Marijuadon", "Ryno", "Shocksteed", "Ignantom", "Marinawk"]},
-	"OJ":       {"team": ["Smoglet", "Flamura", "Cryoul", "Flopix", "Cracklesap", "Sativaur"]},
+	# Final Team: ["Wyvorophyll", "Marijuadon", "Ryno", "Tephron", "Chrysogor", "Terravore"]
+	"OJ":       {"team": ["Smoglet", "Flamura", "Cryoul", "Flopix"]},
+	# Final Team: ["Spookspew", "Ectoxomoth", "Inkitsu", "Flamf", "Cryoul"]
 	"Pato":     {"team": ["Marinawk", "Aquilia", "Flopix", "Ryno", "Salamendro", "Shocksteed"]},
+	# Final Team: ["Marinawk", "Dhascarab", "Gryfleia", "Sekhant", "Stainana", "Ferrizari"]
 	"Satoshi":  {"team": ["Wyvorophyll", "Marijuadon", "Ignantom", "Shocksteed", "Ryno", "Cryophant"]},
-	"Sonia":    {"team": ["Sativaur", "Flopix", "Cracklesap", "Smoglet", "Aquilia", "Cryoul"]},
-	"Trix":     {"team": ["Shocksteed", "Ignantom", "Salamendro", "Marinawk", "Ryno", "Cryophant"]},
-	"Bkyu":     {"team": ["Shocksteed", "Sativaur", "Flopix", "Marijuadon", "Cracklesap", "Aquilia"]}, # Renamed B.Kyu to Bkyu for dictionary key
+	# Final Team: ["Primoricorn", "Cryolantis", "Folyvern", "Stainana", "Faerumen", "Apoploox"]
+	"Sonia":    {"team": ["Sativaur", "Flopix", "Aquilia", "Cracklesap", "Smoglet"]},
+	# Final Team: ["Sativaur", "Flamf", "Ampixie", "Flopix", "Pineapuss", "Wottle"]
+	"Trix":     {"team": ["Shocksteed", "Ignantom", "Salamendro", "Marinawk", "Ryno", "Wyvorophyll"]},
+	# Final Team: ["Chrysogor", "Wyvorophyll", "Sutursa", "Tephron", "Galactortle", "Shocksteed"]
+	"Bkyu":     {"team": ["Shocksteed", "Sativaur", "Flopix", "Marijuadon", "Cracklesap", "Aquilia"]},
+	# Final Team: ["Shocksteed", "Faerumen", "Marijuadon", "Flamf", "Vesophry", "Ampixie"]
 	"Id":       {"team": ["Ignantom", "Cryophant", "Wyvorophyll", "Ryno", "Marinawk", "Shocksteed"]},
+	# Final Team: ["Voidborne", "Afterwrithe", "Myrkkane", "Apoploox", "Vesophry", "Inkitsu"]
 	"Xerberus": {"team": ["Ignantom", "Ryno", "Marinawk", "Shocksteed", "Wyvorophyll", "Cryophant"]},
-	"Asteria":  {"team": ["Marijuadon", "Wyvorophyll", "Sativaur", "Flopix", "Aquilia", "Cracklesap"]}
+	# Final Team: ["Magmoroch", "Cryolantis", "Afterwrithe", "Tephron", "Stainana", "Vesophry"]
+	"Asteria":  {"team": ["Marijuadon", "Wyvorophyll", "Sativaur", "Flopix", "Aquilia", "Cracklesap"]},
+	# Final Team: ["Mamantera", "Galactortle", "Chrysogor", "Tephron", "Primoricorn", "Absequi"]
+	
+	# THIRD PARTY CHARACTERS
+	"DeDe": {"team": ["Ryno", "Ignantom", "Shocksteed"]},
+	"Smiley": {"team": ["Ignantom", "Cryoul", "Flamura", "Wyvorophyll"]},
+	"CoolStick": {"team": ["Ryno", "Ignantom", "Cryoul"]},
+	"Sergeant": {"team": ["Ignantom", "Salamendro"]},
+	"Tobias": {"team": ["Cracklesap", "Flopix"]},
+	"BlackShadow": {"team": ["Ignantom", "Shocksteed"]},
+	"SunMan": {"team": ["Salamendro", "Aquilia"]},
+	"MoonManiac": {"team": ["Cryoul", "Marinawk"]},
+	
+	# PJ AU'S
+	"Ohayo":      {"team": ["Shocksteed", "Cracklesap", "Smoglet", "Flopix"]},
+	# Final Team: ["Faerumen", "Excavolt", "Vesophry", "Tephron", "Stad", "Plumaru"]
+	"PJR":       {"team": ["Ryno", "Marinawk", "Ignantom", "Wyvorophyll", "Shocksteed"]},
+	# Final Team: ["Galactortle", "Voidborne", "Mamantera", "Cryolantis", "Stainana", "Tephron"]
+	"PostJay":   {"team": ["Flamura", "Cryoul", "Flopix", "Sativaur"]},
+	# Final Team: ["Inkitsu", "Vocifer", "Neurocowl", "Sutursa", "Absequi", "Chrysogor"]
+	"SuperNova": {"team": ["Ryno", "Ignantom", "Shocksteed", "Marinawk"]},
+	# Final Team: ["Mamantera", "Tephron", "Faerumen", "Magmoroch", "Primoricorn", "Voidborne"]
+	
 }
 
 
