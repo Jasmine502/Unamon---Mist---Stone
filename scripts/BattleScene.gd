@@ -89,26 +89,26 @@ var _unamon_cry_sounds_map: Dictionary = {}
 @onready var sound_battle_music: AudioStreamPlayer = $BattleMusic
 @onready var sound_cry: AudioStreamPlayer = $SoundCry
 
-# --- Battle State Variables ---
-var player_team: Array = []
-var opponent_team: Array = []
-var player_active_unamon_index: int = 0
-var opponent_active_unamon_index: int = 0
-var has_opponent_switched_after_faint := false
-var forced_opponent: String = ""  # New variable to store forced opponent
-
-var player_active_unamon: Dictionary
-var opponent_active_unamon: Dictionary
-
+# --- State Management ---
+var battle_phase: BattlePhase = BattlePhase.INIT
 var current_actor: Actor = Actor.PLAYER
 var turn_action_taken_by_player: bool = false
 var turn_action_taken_by_opponent: bool = false
+var has_opponent_switched_after_faint: bool = false
+var forced_opponent: String = ""
 
-var battle_phase: BattlePhase = BattlePhase.INIT
+# --- Teams ---
+var player_team: Array[Dictionary] = []
+var opponent_team: Array[Dictionary] = []
+var player_active_unamon: Dictionary
+var opponent_active_unamon: Dictionary
+var player_active_unamon_index: int = 0
+var opponent_active_unamon_index: int = 0
 
+# --- Battle Log ---
 var battle_log_queue: Array[String] = []
 var is_displaying_log_message: bool = false
-var current_log_display_array : Array[String] = []
+var current_log_display_array: Array[String] = []
 
 # --- Initialization ---
 func _ready() -> void:
@@ -116,33 +116,19 @@ func _ready() -> void:
 	_setup_sprite_maps()
 	_setup_sound_streams()
 	_connect_signals()
-	_validate_required_resources()
 	
-	if not _validate_audio_resources():
-		printerr("Critical audio resources missing! Battle scene may not function correctly.")
-	
+	if not _validate_required_resources():
+		printerr("Critical resources missing! Battle scene cannot function correctly.")
+		return
+		
 	sound_battle_music.play()
-	# force_opponent("SuperNova")
 	start_new_battle()
-	
-	# Add failsafe timer to check for potential softlocks
-	var failsafe_timer = Timer.new()
-	failsafe_timer.wait_time = FAILSAFE_TIMEOUT
-	failsafe_timer.timeout.connect(_check_for_softlocks)
-	add_child(failsafe_timer)
-	failsafe_timer.start()
-	
-	# Add UI-specific failsafe timer
-	var ui_failsafe_timer = Timer.new()
-	ui_failsafe_timer.wait_time = UI_FAILSAFE_TIMEOUT
-	ui_failsafe_timer.timeout.connect(_check_ui_state)
-	add_child(ui_failsafe_timer)
-	ui_failsafe_timer.start()
 
 # --- Resource Validation ---
-func _validate_audio_resources() -> bool:
+func _validate_required_resources() -> bool:
 	var missing_resources = []
 	
+	# Validate audio resources
 	if not battle_music:
 		missing_resources.append("Battle Music")
 	if not hit_sound:
@@ -152,44 +138,31 @@ func _validate_audio_resources() -> bool:
 	if not select_sound:
 		missing_resources.append("Select Sound")
 		
-	if not missing_resources.is_empty():
-		printerr("Missing audio resources: ", ", ".join(missing_resources))
-		return false
-	return true
-
-func _validate_required_resources() -> void:
+	# Validate sprite resources
 	if not player_trainer_default_sprite:
-		printerr("Player trainer default sprite not set in BattleScene inspector!")
-		player_trainer_sprite_node.texture = null
-	else:
-		player_trainer_sprite_node.texture = player_trainer_default_sprite
+		missing_resources.append("Player trainer default sprite")
 		
 	# Validate sprite entries
-	var invalid_entries = []
 	for entry in unamon_sprite_entries:
 		if not entry or entry.entry_name.is_empty() or not entry.texture:
-			invalid_entries.append("Unamon: " + (entry.entry_name if entry else "null"))
+			missing_resources.append("Unamon: " + (entry.entry_name if entry else "null"))
 			
 	for entry in opponent_trainer_sprite_entries:
 		if not entry or entry.entry_name.is_empty() or not entry.texture:
-			invalid_entries.append("Trainer: " + (entry.entry_name if entry else "null"))
+			missing_resources.append("Trainer: " + (entry.entry_name if entry else "null"))
 			
-	if not invalid_entries.is_empty():
-		printerr("Invalid sprite entries found: ", ", ".join(invalid_entries))
+	if not missing_resources.is_empty():
+		printerr("Missing or invalid resources: ", ", ".join(missing_resources))
+		return false
+	return true
 
 # --- Battle State Management ---
 func start_new_battle() -> void:
 	_reset_battle_state()
-	_setup_player_team()
-	_setup_opponent_team()
-	_play_initial_animations()
-
-func force_opponent(opponent_name: String) -> void:
-	"""Force a specific opponent for the next battle."""
-	if UnamonData.get_opponent_data(opponent_name).is_empty():
-		printerr("Invalid opponent name: ", opponent_name)
+	if not _setup_player_team() or not _setup_opponent_team():
+		printerr("Failed to set up battle teams!")
 		return
-	forced_opponent = opponent_name
+	_play_initial_animations()
 
 func _reset_battle_state() -> void:
 	player_team.clear()
@@ -200,108 +173,65 @@ func _reset_battle_state() -> void:
 	turn_action_taken_by_player = false
 	turn_action_taken_by_opponent = false
 	has_opponent_switched_after_faint = false
-	forced_opponent = ""  # Reset forced opponent
+	forced_opponent = ""
 	add_battle_log_message_to_queue("Battle Started!")
 
-func _setup_player_team() -> void:
-	var all_unamon_names = UnamonData.get_all_unamon_names()
+func _setup_player_team() -> bool:
+	var all_unamon_names = preload("res://scripts/UnamonData.gd").get_all_unamon_names()
 	if all_unamon_names.is_empty():
 		printerr("No Unamon available in database!")
-		get_tree().quit()
-		return
+		return false
 		
 	all_unamon_names.shuffle()
 	for i in range(min(6, all_unamon_names.size())):
-		var unamon_instance = UnamonData.create_unamon_instance(all_unamon_names[i])
+		var unamon_instance = preload("res://scripts/UnamonData.gd").create_unamon_instance(all_unamon_names[i])
 		if unamon_instance:
 			player_team.append(unamon_instance)
 
 	if player_team.is_empty():
 		printerr("Player team empty! No valid Unamon could be created.")
-		get_tree().quit()
-		return
+		return false
 
 	player_active_unamon_index = 0
 	player_active_unamon = player_team[player_active_unamon_index]
+	return true
 
-func _setup_opponent_team() -> void:
-	var opponent_names_available = UnamonData.get_opponent_names()
+func _setup_opponent_team() -> bool:
+	var opponent_names_available = preload("res://scripts/UnamonData.gd").get_opponent_names()
 	if opponent_names_available.is_empty():
 		printerr("No opponents defined in UnamonData!")
-		get_tree().quit()
-		return
+		return false
 
 	var chosen_opponent_name = forced_opponent if not forced_opponent.is_empty() else opponent_names_available[randi() % opponent_names_available.size()]
-	var opponent_info = UnamonData.get_opponent_data(chosen_opponent_name)
+	var opponent_info = preload("res://scripts/UnamonData.gd").get_opponent_data(chosen_opponent_name)
 	
 	if opponent_info.is_empty():
 		printerr("Could not get opponent data for: ", chosen_opponent_name)
-		if opponent_names_available.size() > 1:
-			opponent_names_available.erase(chosen_opponent_name)
-			if opponent_names_available.is_empty():
-				printerr("No valid opponents available after error recovery!")
-				get_tree().quit()
-				return
-			chosen_opponent_name = opponent_names_available[randi() % opponent_names_available.size()]
-			opponent_info = UnamonData.get_opponent_data(chosen_opponent_name)
-		else:
-			printerr("No alternative opponents available!")
-			get_tree().quit()
-			return
+		return false
 
 	add_battle_log_message_to_queue("You are facing " + chosen_opponent_name + "!")
 	
 	if _opponent_trainer_textures_map.has(chosen_opponent_name):
 		opponent_trainer_sprite_node.texture = _opponent_trainer_textures_map[chosen_opponent_name]
 	else:
-		printerr("Trainer sprite for opponent '", chosen_opponent_name, "' not found in configured sprite entries!")
+		printerr("Trainer sprite for opponent '", chosen_opponent_name, "' not found!")
+		return false
 
 	for unamon_name_str in opponent_info.team:
-		var unamon_instance = UnamonData.create_unamon_instance(unamon_name_str)
+		var unamon_instance = preload("res://scripts/UnamonData.gd").create_unamon_instance(unamon_name_str)
 		if unamon_instance:
 			opponent_team.append(unamon_instance)
 		else:
 			printerr("Failed to create Unamon instance for: ", unamon_name_str)
+			return false
 
 	if opponent_team.is_empty():
-		printerr("Opponent team for ", chosen_opponent_name, " is empty! No valid Unamon could be created.")
-		get_tree().quit()
-		return
+		printerr("Opponent team for ", chosen_opponent_name, " is empty!")
+		return false
 
 	opponent_active_unamon_index = 0
 	opponent_active_unamon = opponent_team[opponent_active_unamon_index]
-
-func _play_initial_animations() -> void:
-	# Reset sprite states
-	player_unamon_sprite_node.visible = false
-	opponent_unamon_sprite_node.visible = false
-	player_unamon_sprite_node.modulate = Color.WHITE
-	opponent_unamon_sprite_node.modulate = Color.WHITE
-
-	# Set initial textures
-	if player_active_unamon and _unamon_textures_map.has(player_active_unamon.name):
-		player_unamon_sprite_node.texture = _unamon_textures_map[player_active_unamon.name]
-	else:
-		printerr("Failed to set initial player Unamon texture")
-		return
-
-	if opponent_active_unamon and _unamon_textures_map.has(opponent_active_unamon.name):
-		opponent_unamon_sprite_node.texture = _unamon_textures_map[opponent_active_unamon.name]
-	else:
-		printerr("Failed to set initial opponent Unamon texture")
-		return
-
-	# Update UI displays
-	update_unamon_display(player_active_unamon, true, true)
-	update_unamon_display(opponent_active_unamon, false, true)
-	update_hp_display(player_active_unamon, true)
-	update_hp_display(opponent_active_unamon, false)
-
-	# Play entry animations
-	await play_battle_entry_animation(false)  # Opponent's Unamon enters first
-	await play_battle_entry_animation(true)   # Then player's Unamon enters
-
-	set_battle_phase(BattlePhase.PROCESSING_MESSAGES)
+	return true
 
 # --- Battle Log Management ---
 func add_battle_log_message_to_queue(message: String) -> void:
@@ -326,14 +256,6 @@ func process_next_log_message() -> void:
 		current_log_display_array.pop_front()
 	battle_log_label.text = "\n".join(current_log_display_array)
 	
-	# Add failsafe timeout for message display - only for non-player-input phases
-	var message_timeout = get_tree().create_timer(30.0)  # 30 second timeout
-	message_timeout.timeout.connect(func():
-		if is_displaying_log_message and battle_phase != BattlePhase.ACTION_SELECT and battle_phase != BattlePhase.MOVE_SELECT and battle_phase != BattlePhase.SWITCH_SELECT:
-			is_displaying_log_message = false
-			process_next_log_message()
-	)
-	
 	typewrite_message_to_label(next_message, battle_log_label, current_log_display_array.size() - 1)
 
 func _handle_game_over_log_completion() -> void:
@@ -354,12 +276,13 @@ func _handle_game_over_log_completion() -> void:
 		)
 
 func _handle_empty_log_queue() -> void:
-	if battle_phase == BattlePhase.PROCESSING_MESSAGES:
-		_handle_processing_messages_phase()
-	elif battle_phase == BattlePhase.AWAIT_PLAYER_FAINT_SWITCH:
-		_handle_player_faint_switch()
-	elif battle_phase == BattlePhase.AWAIT_OPPONENT_FAINT_SWITCH:
-		_handle_opponent_faint_switch()
+	match battle_phase:
+		BattlePhase.PROCESSING_MESSAGES:
+			_handle_processing_messages_phase()
+		BattlePhase.AWAIT_PLAYER_FAINT_SWITCH:
+			_handle_player_faint_switch()
+		BattlePhase.AWAIT_OPPONENT_FAINT_SWITCH:
+			_handle_opponent_faint_switch()
 
 func _handle_processing_messages_phase() -> void:
 	if player_active_unamon.calculated_stats.current_hp <= 0 and not player_unamon_sprite_node.visible:
@@ -370,86 +293,18 @@ func _handle_processing_messages_phase() -> void:
 		start_new_round_sequence()
 	elif current_actor == Actor.PLAYER and not turn_action_taken_by_player:
 		set_battle_phase(BattlePhase.ACTION_SELECT)
-		# Force action menu visibility after a short delay to ensure proper state
-		await get_tree().create_timer(0.1).timeout
-		if battle_phase == BattlePhase.ACTION_SELECT and not action_menu.visible:
-			action_menu.visible = true
+		action_menu.visible = true
 	elif current_actor == Actor.OPPONENT and not turn_action_taken_by_opponent:
 		set_battle_phase(BattlePhase.ANIMATING_OPPONENT_ATTACK)
 		opponent_action()
 	else:
 		determine_next_actor_or_new_round()
 
-func _handle_player_faint_switch() -> void:
-	var can_switch_player = false
-	for unamon_member in player_team:
-		if unamon_member.calculated_stats.current_hp > 0:
-			can_switch_player = true
-			break
-	if can_switch_player:
-		display_switch_options_for_player(true)
-	else:
-		game_over(false)
-
-func _handle_opponent_faint_switch() -> void:
-	if not has_opponent_switched_after_faint:
-		var can_switch_opponent = false
-		for unamon_member in opponent_team:
-			if unamon_member.calculated_stats.current_hp > 0:
-				can_switch_opponent = true
-				break
-		if can_switch_opponent:
-			has_opponent_switched_after_faint = true
-			await opponent_switch_fainted()
-		else:
-			game_over(true)
-
-func typewrite_message_to_label(full_message: String, label_node: Label, line_index: int) -> void:
-	var current_text_on_line = ""
-	for char_idx in range(full_message.length()):
-		current_text_on_line += full_message[char_idx]
-		if line_index < current_log_display_array.size():
-			current_log_display_array[line_index] = current_text_on_line
-			label_node.text = "\n".join(current_log_display_array)
-		await get_tree().create_timer(TYPEWRITER_DELAY).timeout
-	print(full_message)
-	await get_tree().create_timer(MESSAGE_DELAY).timeout
-	process_next_log_message()
-
-# --- UI Update Functions ---
-func update_unamon_display(unamon: Dictionary, is_player: bool, is_initial_setup_or_direct_set: bool = false) -> void:
-	var sprite_node_to_update = player_unamon_sprite_node if is_player else opponent_unamon_sprite_node
-	var name_label = player_unamon_name_label if is_player else opponent_unamon_name_label
-
-	if unamon and unamon.has("name"):
-		if _unamon_textures_map.has(unamon.name):
-			sprite_node_to_update.texture = _unamon_textures_map[unamon.name]
-			sprite_node_to_update.visible = true
-			if is_initial_setup_or_direct_set:
-				sprite_node_to_update.modulate = Color.WHITE
-		else:
-			printerr("Unamon sprite for '", unamon.name, "' not found in configured sprite entries!")
-			sprite_node_to_update.texture = null
-			sprite_node_to_update.visible = false
-
-		name_label.text = unamon.name + " (Lvl " + str(LEVEL) + ")"
-	else:
-		sprite_node_to_update.texture = null
-		sprite_node_to_update.visible = false
-		name_label.text = "---"
-
-func update_hp_display(unamon: Dictionary, is_player: bool) -> void:
-	if unamon:
-		var hp_bar = player_hp_bar if is_player else opponent_hp_bar
-		var hp_text = player_hp_text_label if is_player else opponent_hp_text_label
-		hp_bar.max_value = unamon.calculated_stats.max_hp
-		hp_bar.value = unamon.calculated_stats.current_hp
-		hp_text.text = "HP: " + str(unamon.calculated_stats.current_hp) + "/" + str(unamon.calculated_stats.max_hp)
-
+# --- Battle Phase Management ---
 func set_battle_phase(new_phase: BattlePhase) -> void:
 	battle_phase = new_phase
 	
-	# Ensure menus are properly shown/hidden based on phase
+	# Update UI visibility based on phase
 	action_menu.visible = (battle_phase == BattlePhase.ACTION_SELECT and not is_displaying_log_message)
 	move_menu.visible = (battle_phase == BattlePhase.MOVE_SELECT)
 	
@@ -461,26 +316,131 @@ func set_battle_phase(new_phase: BattlePhase) -> void:
 	elif switch_menu_container.visible:
 		switch_menu_container.visible = false
 
-	# Trigger UI updates based on phase
+	# Update UI based on phase
 	if battle_phase == BattlePhase.MOVE_SELECT:
 		display_moves_for_player()
 
 	# Process messages if needed
 	if battle_phase == BattlePhase.PROCESSING_MESSAGES and not is_displaying_log_message:
 		process_next_log_message()
+
+# --- Turn Management ---
+func determine_next_actor_or_new_round() -> void:
+	if battle_phase == BattlePhase.GAME_OVER:
+		return
+
+	if player_active_unamon.calculated_stats.current_hp <= 0 and not player_unamon_sprite_node.visible:
+		set_battle_phase(BattlePhase.AWAIT_PLAYER_FAINT_SWITCH)
+		process_next_log_message()
+		return
 		
-	# Add failsafe to ensure we don't get stuck in a phase
-	# Only apply timeout for non-player-input phases
-	if battle_phase != BattlePhase.GAME_OVER and battle_phase != BattlePhase.ACTION_SELECT and battle_phase != BattlePhase.MOVE_SELECT and battle_phase != BattlePhase.SWITCH_SELECT:
-		await get_tree().create_timer(FAILSAFE_TIMEOUT).timeout
-		if battle_phase == new_phase:  # If we're still in the same phase after timeout
-			_check_for_softlocks()
-	elif battle_phase == BattlePhase.ACTION_SELECT or battle_phase == BattlePhase.MOVE_SELECT or battle_phase == BattlePhase.SWITCH_SELECT:
-		# Add a longer timeout for player input phases
-		await get_tree().create_timer(PLAYER_INPUT_TIMEOUT).timeout
-		if battle_phase == new_phase:  # If we're still in the same phase after timeout
-			printerr("Player input phase timeout reached! Forcing next phase.")
-			_handle_player_input_timeout()
+	if opponent_active_unamon.calculated_stats.current_hp <= 0 and not opponent_unamon_sprite_node.visible:
+		set_battle_phase(BattlePhase.AWAIT_OPPONENT_FAINT_SWITCH)
+		process_next_log_message()
+		return
+
+	if turn_action_taken_by_player and turn_action_taken_by_opponent:
+		start_new_round_sequence()
+		return
+
+	var player_faster = player_active_unamon.calculated_stats.speed >= opponent_active_unamon.calculated_stats.speed
+
+	if player_faster:
+		if not turn_action_taken_by_player:
+			current_actor = Actor.PLAYER
+			set_battle_phase(BattlePhase.ACTION_SELECT)
+		elif not turn_action_taken_by_opponent:
+			current_actor = Actor.OPPONENT
+			set_battle_phase(BattlePhase.ANIMATING_OPPONENT_ATTACK)
+			opponent_action()
+	else:
+		if not turn_action_taken_by_opponent:
+			current_actor = Actor.OPPONENT
+			set_battle_phase(BattlePhase.ANIMATING_OPPONENT_ATTACK)
+			opponent_action()
+		elif not turn_action_taken_by_player:
+			current_actor = Actor.PLAYER
+			set_battle_phase(BattlePhase.ACTION_SELECT)
+
+func start_new_round_sequence() -> void:
+	if battle_phase == BattlePhase.GAME_OVER:
+		return
+		
+	add_battle_log_message_to_queue("--- New Round ---")
+	turn_action_taken_by_player = false
+	turn_action_taken_by_opponent = false
+
+	if player_active_unamon.calculated_stats.current_hp <= 0:
+		if not player_unamon_sprite_node.visible:
+			set_battle_phase(BattlePhase.AWAIT_PLAYER_FAINT_SWITCH)
+	elif opponent_active_unamon.calculated_stats.current_hp <= 0:
+		if not opponent_unamon_sprite_node.visible:
+			set_battle_phase(BattlePhase.AWAIT_OPPONENT_FAINT_SWITCH)
+	else:
+		if player_active_unamon.calculated_stats.speed >= opponent_active_unamon.calculated_stats.speed:
+			current_actor = Actor.PLAYER
+			add_battle_log_message_to_queue(player_active_unamon.name + " acts first this round.")
+		else:
+			current_actor = Actor.OPPONENT
+			add_battle_log_message_to_queue(opponent_active_unamon.name + " acts first this round.")
+	set_battle_phase(BattlePhase.PROCESSING_MESSAGES)
+
+# --- Opponent AI ---
+func opponent_action() -> void:
+	if battle_phase == BattlePhase.GAME_OVER or opponent_active_unamon.calculated_stats.current_hp <= 0:
+		set_battle_phase(BattlePhase.PROCESSING_MESSAGES)
+		determine_next_actor_or_new_round()
+		return
+
+	var available_moves_with_pp = []
+	for mv in opponent_active_unamon.battle_moves:
+		if mv.current_pp > 0:
+			available_moves_with_pp.append(mv)
+
+	if available_moves_with_pp.is_empty():
+		add_battle_log_message_to_queue(opponent_active_unamon.name + " is out of moves!")
+		turn_action_taken_by_opponent = true
+		set_battle_phase(BattlePhase.PROCESSING_MESSAGES)
+		return
+
+	var opponent_move = available_moves_with_pp[randi() % available_moves_with_pp.size()]
+	opponent_move.current_pp -= 1
+
+	if battle_phase != BattlePhase.GAME_OVER:
+		turn_action_taken_by_opponent = true
+		execute_turn_sequence(opponent_active_unamon, player_active_unamon, opponent_move, false)
+
+# --- Resource Management ---
+func _setup_sprite_maps() -> void:
+	for entry in unamon_sprite_entries:
+		if entry and entry.entry_name != "" and entry.texture:
+			_unamon_textures_map[entry.entry_name] = entry.texture
+			if entry.cry_sound:
+				_unamon_cry_sounds_map[entry.entry_name] = entry.cry_sound
+		elif entry:
+			printerr("Invalid Unamon SpriteEntry: Name or Texture missing. Name: '", entry.entry_name, "'")
+
+	for entry in opponent_trainer_sprite_entries:
+		if entry and entry.entry_name != "" and entry.texture:
+			_opponent_trainer_textures_map[entry.entry_name] = entry.texture
+		elif entry:
+			printerr("Invalid Opponent Trainer SpriteEntry: Name or Texture missing. Name: '", entry.entry_name, "'")
+
+func _setup_sound_streams() -> void:
+	if battle_music:
+		sound_battle_music.stream = battle_music
+	if hit_sound:
+		sound_hit.stream = hit_sound
+	if faint_sound:
+		sound_faint.stream = faint_sound
+	if select_sound:
+		sound_select.stream = select_sound
+
+func _connect_signals() -> void:
+	fight_button.pressed.connect(_on_fight_button_pressed)
+	switch_button.pressed.connect(_on_switch_button_pressed)
+	for i in move_buttons.size():
+		move_buttons[i].pressed.connect(Callable(self, "_on_move_button_pressed").bind(i))
 
 # --- Button Handlers ---
 func _on_fight_button_pressed() -> void:
@@ -498,13 +458,13 @@ func display_moves_for_player() -> void:
 			var move_data = player_active_unamon.battle_moves[i]
 			btn.text = move_data.name + " (PP: " + str(move_data.current_pp) + "/" + str(move_data.pp) + ")"
 			btn.disabled = (move_data.current_pp == 0)
-			var type_name = UnamonData.get_type_name(move_data.type)
-			var category_name = UnamonData.get_move_category_name(move_data.category)
+			var type_name = preload("res://scripts/UnamonData.gd").get_type_name(move_data.type)
+			var category_name = preload("res://scripts/UnamonData.gd").get_move_category_name(move_data.category)
 			btn.tooltip_text = "Type: " + type_name + \
-							   "\nCategory: " + category_name + \
-							   "\nPower: " + str(move_data.power) + \
-							   "\nAccuracy: " + str(move_data.accuracy) + "%" + \
-							   "\nMax PP: " + str(move_data.pp)
+						   "\nCategory: " + category_name + \
+						   "\nPower: " + str(move_data.power) + \
+						   "\nAccuracy: " + str(move_data.accuracy) + "%" + \
+						   "\nMax PP: " + str(move_data.pp)
 		else:
 			btn.text = "-"
 			btn.disabled = true
@@ -538,9 +498,9 @@ func display_switch_options_for_player(must_switch: bool) -> void:
 			team_member.calculated_stats.defense, team_member.calculated_stats.special_attack,
 			team_member.calculated_stats.special_defense, team_member.calculated_stats.speed
 		]
-		var types_str = UnamonData.get_type_name(team_member.types[0])
+		var types_str = preload("res://scripts/UnamonData.gd").get_type_name(team_member.types[0])
 		if team_member.types.size() > 1:
-			types_str += "/" + UnamonData.get_type_name(team_member.types[1])
+			types_str += "/" + preload("res://scripts/UnamonData.gd").get_type_name(team_member.types[1])
 		switch_btn.tooltip_text = "Name: " + team_member.name + "\nTypes: " + types_str + "\n" + stats_str
 
 		if team_member.calculated_stats.current_hp > 0:
@@ -618,7 +578,7 @@ func execute_turn_sequence(attacker: Dictionary, defender: Dictionary, move: Dic
 		
 		if damage > 0:
 			add_battle_log_message_to_queue(defender.name + " took " + str(damage) + " damage!")
-		elif UnamonData.get_type_effectiveness(move.type, defender.types) == 0.0:
+		elif preload("res://scripts/UnamonData.gd").get_type_effectiveness(move.type, defender.types) == 0.0:
 			add_battle_log_message_to_queue("It had no effect on " + defender.name + "...")
 		else:
 			add_battle_log_message_to_queue(attacker.name + "'s attack had little effect!")
@@ -646,7 +606,7 @@ func calculate_damage(attacker: Dictionary, defender: Dictionary, move: Dictiona
 	var attacker_stat: int
 	var defender_stat: int
 
-	if move.category == UnamonData.MOVE_CATEGORY.PHYSICAL:
+	if move.category == preload("res://scripts/UnamonData.gd").MOVE_CATEGORY.PHYSICAL:
 		attacker_stat = attacker.calculated_stats.attack
 		defender_stat = defender.calculated_stats.defense
 	else:
@@ -654,7 +614,7 @@ func calculate_damage(attacker: Dictionary, defender: Dictionary, move: Dictiona
 		defender_stat = defender.calculated_stats.special_defense
 
 	var stab_multiplier = STAB_MULTIPLIER if move.type in attacker.types else 1.0
-	var type_effectiveness_multiplier = UnamonData.get_type_effectiveness(move.type, defender.types)
+	var type_effectiveness_multiplier = preload("res://scripts/UnamonData.gd").get_type_effectiveness(move.type, defender.types)
 
 	if type_effectiveness_multiplier > 1.1:
 		add_battle_log_message_to_queue("It's super effective!")
@@ -676,153 +636,6 @@ func calculate_damage(attacker: Dictionary, defender: Dictionary, move: Dictiona
 func apply_damage(target_unamon: Dictionary, damage_amount: int, target_is_player: bool) -> void:
 	target_unamon.calculated_stats.current_hp = max(0, target_unamon.calculated_stats.current_hp - damage_amount)
 	update_hp_display(target_unamon, target_is_player)
-
-func determine_next_actor_or_new_round() -> void:
-	if battle_phase == BattlePhase.GAME_OVER:
-		return
-
-	# Add failsafe to prevent infinite loops
-	var max_attempts = 3
-	var attempts = 0
-	
-	while attempts < max_attempts:
-		if player_active_unamon.calculated_stats.current_hp <= 0 and not player_unamon_sprite_node.visible:
-			set_battle_phase(BattlePhase.AWAIT_PLAYER_FAINT_SWITCH)
-			process_next_log_message()
-			return
-		if opponent_active_unamon.calculated_stats.current_hp <= 0 and not opponent_unamon_sprite_node.visible:
-			set_battle_phase(BattlePhase.AWAIT_OPPONENT_FAINT_SWITCH)
-			process_next_log_message()
-			return
-
-		if turn_action_taken_by_player and turn_action_taken_by_opponent:
-			start_new_round_sequence()
-			return
-
-		var player_faster = player_active_unamon.calculated_stats.speed >= opponent_active_unamon.calculated_stats.speed
-
-		if player_faster:
-			if not turn_action_taken_by_player:
-				current_actor = Actor.PLAYER
-				set_battle_phase(BattlePhase.ACTION_SELECT)
-				break
-			elif not turn_action_taken_by_opponent:
-				current_actor = Actor.OPPONENT
-				set_battle_phase(BattlePhase.ANIMATING_OPPONENT_ATTACK)
-				opponent_action()
-				break
-		else:
-			if not turn_action_taken_by_opponent:
-				current_actor = Actor.OPPONENT
-				set_battle_phase(BattlePhase.ANIMATING_OPPONENT_ATTACK)
-				opponent_action()
-				break
-			elif not turn_action_taken_by_player:
-				current_actor = Actor.PLAYER
-				set_battle_phase(BattlePhase.ACTION_SELECT)
-				break
-				
-		attempts += 1
-		
-	# If we've tried too many times, force a new round
-	if attempts >= max_attempts:
-		start_new_round_sequence()
-
-func start_new_round_sequence() -> void:
-	if battle_phase == BattlePhase.GAME_OVER:
-		return
-	add_battle_log_message_to_queue("--- New Round ---")
-	turn_action_taken_by_player = false
-	turn_action_taken_by_opponent = false
-
-	if player_active_unamon.calculated_stats.current_hp <= 0:
-		if not player_unamon_sprite_node.visible:
-			set_battle_phase(BattlePhase.AWAIT_PLAYER_FAINT_SWITCH)
-	elif opponent_active_unamon.calculated_stats.current_hp <= 0:
-		if not opponent_unamon_sprite_node.visible:
-			set_battle_phase(BattlePhase.AWAIT_OPPONENT_FAINT_SWITCH)
-	else:
-		if player_active_unamon.calculated_stats.speed >= opponent_active_unamon.calculated_stats.speed:
-			current_actor = Actor.PLAYER
-			add_battle_log_message_to_queue(player_active_unamon.name + " acts first this round.")
-		else:
-			current_actor = Actor.OPPONENT
-			add_battle_log_message_to_queue(opponent_active_unamon.name + " acts first this round.")
-	set_battle_phase(BattlePhase.PROCESSING_MESSAGES)
-
-func opponent_action() -> void:
-	if battle_phase == BattlePhase.GAME_OVER or opponent_active_unamon.calculated_stats.current_hp <= 0:
-		set_battle_phase(BattlePhase.PROCESSING_MESSAGES)
-		determine_next_actor_or_new_round()
-		return
-
-	var available_moves_with_pp = []
-	for mv in opponent_active_unamon.battle_moves:
-		if mv.current_pp > 0:
-			available_moves_with_pp.append(mv)
-
-	if available_moves_with_pp.is_empty():
-		add_battle_log_message_to_queue(opponent_active_unamon.name + " is out of moves!")
-		turn_action_taken_by_opponent = true
-		set_battle_phase(BattlePhase.PROCESSING_MESSAGES)
-		return
-
-	# Add failsafe to ensure opponent always picks a move
-	var max_attempts = 3
-	var attempts = 0
-	var opponent_move = null
-	
-	while attempts < max_attempts:
-		opponent_move = available_moves_with_pp[randi() % available_moves_with_pp.size()]
-		if opponent_move and opponent_move.current_pp > 0:
-			break
-		attempts += 1
-		
-	if not opponent_move or opponent_move.current_pp <= 0:
-		# If we still couldn't find a valid move, force the first available move
-		for mv in available_moves_with_pp:
-			if mv.current_pp > 0:
-				opponent_move = mv
-				break
-				
-	if not opponent_move:
-		add_battle_log_message_to_queue(opponent_active_unamon.name + " is out of moves!")
-		turn_action_taken_by_opponent = true
-		set_battle_phase(BattlePhase.PROCESSING_MESSAGES)
-		return
-
-	opponent_move.current_pp -= 1
-
-	if battle_phase != BattlePhase.GAME_OVER:
-		turn_action_taken_by_opponent = true
-		execute_turn_sequence(opponent_active_unamon, player_active_unamon, opponent_move, false)
-
-func opponent_switch_fainted() -> void:
-	var new_opponent_idx = -1
-	var available_indices = []
-	for i in opponent_team.size():
-		if opponent_team[i].calculated_stats.current_hp > 0:
-			available_indices.append(i)
-
-	if not available_indices.is_empty():
-		new_opponent_idx = available_indices[randi() % available_indices.size()]
-		
-		opponent_active_unamon_index = new_opponent_idx
-		opponent_active_unamon = opponent_team[opponent_active_unamon_index]
-		add_battle_log_message_to_queue("Opponent sent out " + opponent_active_unamon.name + "!")
-		update_unamon_display(opponent_active_unamon, false, false)
-		update_hp_display(opponent_active_unamon, false)
-		
-		await play_switch_in_animation(opponent_unamon_sprite_node)
-		
-		if turn_action_taken_by_player:
-			start_new_round_sequence()
-		else:
-			current_actor = Actor.PLAYER
-			set_battle_phase(BattlePhase.ACTION_SELECT)
-			action_menu.visible = true  # Explicitly show the action menu
-	else:
-		game_over(true)
 
 # --- Animation Functions ---
 func play_attack_animation(sprite: Sprite2D, is_player: bool) -> void:
@@ -960,106 +773,35 @@ func _on_restart_button_pressed() -> void:
 
 	start_new_battle()
 
-# --- UI State Management ---
-func _check_ui_state() -> void:
-	if battle_phase == BattlePhase.GAME_OVER:
-		return
-		
-	# Don't check UI state during player input phases unless we've been there too long
-	var is_player_input_phase = battle_phase == BattlePhase.ACTION_SELECT or battle_phase == BattlePhase.MOVE_SELECT or battle_phase == BattlePhase.SWITCH_SELECT
-	if is_player_input_phase:
-		return
-		
-	# Check if action menu should be visible but isn't
-	if battle_phase == BattlePhase.ACTION_SELECT and not action_menu.visible and not is_displaying_log_message:
-		printerr("Action menu should be visible but isn't! Forcing visibility.")
-		action_menu.visible = true
-		
-	# Check if move menu should be visible but isn't
-	if battle_phase == BattlePhase.MOVE_SELECT and not move_menu.visible:
-		printerr("Move menu should be visible but isn't! Forcing visibility.")
-		move_menu.visible = true
-		
-	# Check if switch menu should be visible but isn't
-	if (battle_phase == BattlePhase.AWAIT_PLAYER_FAINT_SWITCH or battle_phase == BattlePhase.SWITCH_SELECT) and not switch_menu_container.visible:
-		printerr("Switch menu should be visible but isn't! Forcing visibility.")
-		display_switch_options_for_player(battle_phase == BattlePhase.AWAIT_PLAYER_FAINT_SWITCH)
+# --- UI Update Functions ---
+func update_unamon_display(unamon: Dictionary, is_player: bool, is_initial_setup_or_direct_set: bool = false) -> void:
+	var sprite_node_to_update = player_unamon_sprite_node if is_player else opponent_unamon_sprite_node
+	var name_label = player_unamon_name_label if is_player else opponent_unamon_name_label
 
-func _handle_player_input_timeout() -> void:
-	match battle_phase:
-		BattlePhase.ACTION_SELECT:
-			# If player hasn't taken action, force a move selection
-			if not turn_action_taken_by_player:
-				set_battle_phase(BattlePhase.MOVE_SELECT)
-		BattlePhase.MOVE_SELECT:
-			# If player hasn't selected a move, force the first available move
-			if not turn_action_taken_by_player:
-				for i in move_buttons.size():
-					if not move_buttons[i].disabled:
-						_on_move_button_pressed(i)
-						break
-		BattlePhase.SWITCH_SELECT:
-			# If player hasn't switched, force the first available switch
-			if not turn_action_taken_by_player:
-				for i in player_team.size():
-					if i != player_active_unamon_index and player_team[i].calculated_stats.current_hp > 0:
-						_on_player_select_switch_unamon(i, false)
-						break
+	if unamon and unamon.has("name"):
+		if _unamon_textures_map.has(unamon.name):
+			sprite_node_to_update.texture = _unamon_textures_map[unamon.name]
+			sprite_node_to_update.visible = true
+			if is_initial_setup_or_direct_set:
+				sprite_node_to_update.modulate = Color.WHITE
+		else:
+			printerr("Unamon sprite for '", unamon.name, "' not found in configured sprite entries!")
+			sprite_node_to_update.texture = null
+			sprite_node_to_update.visible = false
 
-# --- Failsafe Functions ---
-func _check_for_softlocks() -> void:
-	if battle_phase == BattlePhase.GAME_OVER:
-		return
-		
-	# Check if we're stuck in a message processing state
-	if battle_phase == BattlePhase.PROCESSING_MESSAGES and not is_displaying_log_message and battle_log_queue.is_empty():
-		_handle_empty_log_queue()
-		return
-		
-	# Check if we're stuck in opponent action
-	if battle_phase == BattlePhase.ANIMATING_OPPONENT_ATTACK and not turn_action_taken_by_opponent:
-		printerr("Stuck in opponent action! Forcing opponent action.")
-		opponent_action()
-		
-	# Check if we're stuck in a round with no actions taken
-	if turn_action_taken_by_player and turn_action_taken_by_opponent:
-		printerr("Both actions taken but no new round started! Forcing new round.")
-		start_new_round_sequence()
-	elif not turn_action_taken_by_player and not turn_action_taken_by_opponent:
-		printerr("No actions taken in current round! Forcing next actor determination.")
-		determine_next_actor_or_new_round()
+		name_label.text = unamon.name + " (Lvl " + str(LEVEL) + ")"
+	else:
+		sprite_node_to_update.texture = null
+		sprite_node_to_update.visible = false
+		name_label.text = "---"
 
-# --- Resource Management ---
-func _setup_sprite_maps() -> void:
-	for entry in unamon_sprite_entries:
-		if entry and entry.entry_name != "" and entry.texture:
-			_unamon_textures_map[entry.entry_name] = entry.texture
-			if entry.cry_sound:
-				_unamon_cry_sounds_map[entry.entry_name] = entry.cry_sound
-		elif entry:
-			printerr("Invalid Unamon SpriteEntry: Name or Texture missing. Name: '", entry.entry_name, "'")
-
-	for entry in opponent_trainer_sprite_entries:
-		if entry and entry.entry_name != "" and entry.texture:
-			_opponent_trainer_textures_map[entry.entry_name] = entry.texture
-		elif entry:
-			printerr("Invalid Opponent Trainer SpriteEntry: Name or Texture missing. Name: '", entry.entry_name, "'")
-
-func _setup_sound_streams() -> void:
-	if battle_music:
-		sound_battle_music.stream = battle_music
-	if hit_sound:
-		sound_hit.stream = hit_sound
-	if faint_sound:
-		sound_faint.stream = faint_sound
-	if select_sound:
-		sound_select.stream = select_sound
-
-func _connect_signals() -> void:
-	fight_button.pressed.connect(_on_fight_button_pressed)
-	switch_button.pressed.connect(_on_switch_button_pressed)
-	for i in move_buttons.size():
-		move_buttons[i].pressed.connect(Callable(self, "_on_move_button_pressed").bind(i))
+func update_hp_display(unamon: Dictionary, is_player: bool) -> void:
+	if unamon:
+		var hp_bar = player_hp_bar if is_player else opponent_hp_bar
+		var hp_text = player_hp_text_label if is_player else opponent_hp_text_label
+		hp_bar.max_value = unamon.calculated_stats.max_hp
+		hp_bar.value = unamon.calculated_stats.current_hp
+		hp_text.text = "HP: " + str(unamon.calculated_stats.current_hp) + "/" + str(unamon.calculated_stats.max_hp)
 
 # --- Sound Management ---
 func play_unamon_cry(unamon_name: String) -> Signal:
@@ -1101,3 +843,98 @@ func play_battle_entry_animation(is_player: bool) -> void:
 	
 	await tween.finished
 	await cry_task
+
+func _play_initial_animations() -> void:
+	# Reset sprite states
+	player_unamon_sprite_node.visible = false
+	opponent_unamon_sprite_node.visible = false
+	player_unamon_sprite_node.modulate = Color.WHITE
+	opponent_unamon_sprite_node.modulate = Color.WHITE
+
+	# Set initial textures
+	if player_active_unamon and _unamon_textures_map.has(player_active_unamon.name):
+		player_unamon_sprite_node.texture = _unamon_textures_map[player_active_unamon.name]
+	else:
+		printerr("Failed to set initial player Unamon texture")
+		return
+
+	if opponent_active_unamon and _unamon_textures_map.has(opponent_active_unamon.name):
+		opponent_unamon_sprite_node.texture = _unamon_textures_map[opponent_active_unamon.name]
+	else:
+		printerr("Failed to set initial opponent Unamon texture")
+		return
+
+	# Update UI displays
+	update_unamon_display(player_active_unamon, true, true)
+	update_unamon_display(opponent_active_unamon, false, true)
+	update_hp_display(player_active_unamon, true)
+	update_hp_display(opponent_active_unamon, false)
+
+	# Play entry animations
+	await play_battle_entry_animation(false)  # Opponent's Unamon enters first
+	await play_battle_entry_animation(true)   # Then player's Unamon enters
+
+	set_battle_phase(BattlePhase.PROCESSING_MESSAGES)
+
+func typewrite_message_to_label(full_message: String, label_node: Label, line_index: int) -> void:
+	var current_text_on_line = ""
+	for char_idx in range(full_message.length()):
+		current_text_on_line += full_message[char_idx]
+		if line_index < current_log_display_array.size():
+			current_log_display_array[line_index] = current_text_on_line
+			label_node.text = "\n".join(current_log_display_array)
+		await get_tree().create_timer(TYPEWRITER_DELAY).timeout
+	print(full_message)
+	await get_tree().create_timer(MESSAGE_DELAY).timeout
+	process_next_log_message()
+
+func _handle_player_faint_switch() -> void:
+	var can_switch_player = false
+	for unamon_member in player_team:
+		if unamon_member.calculated_stats.current_hp > 0:
+			can_switch_player = true
+			break
+	if can_switch_player:
+		display_switch_options_for_player(true)
+	else:
+		game_over(false)
+
+func _handle_opponent_faint_switch() -> void:
+	if not has_opponent_switched_after_faint:
+		var can_switch_opponent = false
+		for unamon_member in opponent_team:
+			if unamon_member.calculated_stats.current_hp > 0:
+				can_switch_opponent = true
+				break
+		if can_switch_opponent:
+			has_opponent_switched_after_faint = true
+			await opponent_switch_fainted()
+		else:
+			game_over(true)
+
+func opponent_switch_fainted() -> void:
+	var new_opponent_idx = -1
+	var available_indices = []
+	for i in opponent_team.size():
+		if opponent_team[i].calculated_stats.current_hp > 0:
+			available_indices.append(i)
+
+	if not available_indices.is_empty():
+		new_opponent_idx = available_indices[randi() % available_indices.size()]
+		
+		opponent_active_unamon_index = new_opponent_idx
+		opponent_active_unamon = opponent_team[opponent_active_unamon_index]
+		add_battle_log_message_to_queue("Opponent sent out " + opponent_active_unamon.name + "!")
+		update_unamon_display(opponent_active_unamon, false, false)
+		update_hp_display(opponent_active_unamon, false)
+		
+		await play_switch_in_animation(opponent_unamon_sprite_node)
+		
+		if turn_action_taken_by_player:
+			start_new_round_sequence()
+		else:
+			current_actor = Actor.PLAYER
+			set_battle_phase(BattlePhase.ACTION_SELECT)
+			action_menu.visible = true
+	else:
+		game_over(true)
