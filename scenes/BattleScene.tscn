@@ -11,7 +11,7 @@
 [ext_resource type="AudioStream" uid="uid://csdb4dnvhu574" path="res://sounds/hit_sound.wav" id="4_sdfhe"]
 [ext_resource type="AudioStream" uid="uid://cnfcfg7hfi54r" path="res://sounds/sfx/cries/02-FLAMURA.ogg" id="5_d0o6i"]
 [ext_resource type="AudioStream" uid="uid://dnr38nuyl472" path="res://sounds/faint_sound.wav" id="5_hrc4b"]
-[ext_resource type="Texture2D" uid="uid://bfwyb5heromyo" path="res://sprites/unamon/ignantom.png" id="5_ikhwg"]
+[ext_resource type="Texture2D" uid="uid://d3pbo4h1v4ib6" path="res://sprites/unamon/ignantom.png" id="5_ikhwg"]
 [ext_resource type="Texture2D" uid="uid://dxgjk7ukogg3f" path="res://sprites/unamon/flopix.png" id="6_4gmaf"]
 [ext_resource type="AudioStream" uid="uid://dpdamxiy556a6" path="res://sounds/select_sound.wav" id="6_sgm0l"]
 [ext_resource type="Texture2D" uid="uid://dtqr1qxfynbwj" path="res://sprites/unamon/aquilia.png" id="7_0ec1h"]
@@ -57,7 +57,6 @@
 [ext_resource type="Texture2D" uid="uid://ddfds8eockm63" path="res://sprites/trainers/trainer_penny.png" id="33_uta05"]
 [ext_resource type="Texture2D" uid="uid://bayucqv2whj5i" path="res://sprites/trainers/trainer_pj.png" id="34_nd6w6"]
 [ext_resource type="Texture2D" uid="uid://i4i8kimyih31" path="res://sprites/trainers/trainer_satoshi.png" id="37_s5sem"]
-[ext_resource type="Texture2D" uid="uid://f7ptp47yo01q" path="res://sprites/unamon/d83htw0-ec490c3b-f7dd-4570-a698-8404a8a12f99.png" id="38_7hgux"]
 [ext_resource type="Texture2D" uid="uid://bo0wo61ynxxu6" path="res://sprites/trainers/trainer_sonia.png" id="38_gmnrv"]
 [ext_resource type="Texture2D" uid="uid://bhf1luh34sf5l" path="res://sprites/trainers/trainer_trix.png" id="39_osvr5"]
 [ext_resource type="Texture2D" uid="uid://vtxlkjxtlfia" path="res://sprites/trainers/trainer_xerberus.png" id="40_osvr5"]
@@ -74,6 +73,7 @@
 [ext_resource type="Texture2D" uid="uid://okqwv4rqui6h" path="res://sprites/trainers/trainer_smiley.png" id="66_y7qg8"]
 [ext_resource type="Texture2D" uid="uid://bektwt24morq7" path="res://sprites/trainers/trainer_supernova.png" id="67_3ypt2"]
 [ext_resource type="Texture2D" uid="uid://b06c254tnuwev" path="res://sprites/trainers/trainer_coolstick.png" id="68_at8rk"]
+[ext_resource type="Texture2D" uid="uid://crb47b28xonhw" path="res://sprites/background.png" id="74_inodm"]
 
 [sub_resource type="Resource" id="Resource_ahh7x"]
 script = ExtResource("2_vtyuj")
@@ -413,9 +413,11 @@ faint_sound = ExtResource("5_hrc4b")
 select_sound = ExtResource("6_sgm0l")
 
 [node name="Background" type="TextureRect" parent="."]
-offset_right = 1280.0
-offset_bottom = 720.0
-texture = ExtResource("38_7hgux")
+offset_top = -126.0
+offset_right = 1281.0
+offset_bottom = 728.0
+texture = ExtResource("74_inodm")
+expand_mode = 1
 
 [node name="PlayerUnamonSprite" type="Sprite2D" parent="."]
 texture_filter = 1

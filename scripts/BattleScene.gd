@@ -691,6 +691,9 @@ func play_hit_flash(sprite: Sprite2D) -> void:
 func play_faint_animation(sprite: Sprite2D) -> void:
 	sound_faint.play()
 	
+	# Store original position for reset
+	var original_position = sprite.position
+	
 	# Ensure sprite is visible and reset
 	sprite.visible = true
 	sprite.modulate.a = 1.0
@@ -711,7 +714,8 @@ func play_faint_animation(sprite: Sprite2D) -> void:
 	
 	await faint_tween.finished
 	
-	# Only hide the sprite after all animations are complete
+	# Reset position and hide sprite
+	sprite.position = original_position
 	sprite.visible = false
 	sprite.rotation_degrees = 0  # Reset rotation for next battle
 
@@ -735,6 +739,9 @@ func play_switch_in_animation(sprite: Sprite2D) -> void:
 		sprite.texture = null
 		return
 
+	# Set initial position based on whether it's player or opponent
+	var start_pos = Vector2(284, 417) if sprite == player_unamon_sprite_node else Vector2(926, 185)
+	sprite.position = start_pos
 	sprite.texture = _unamon_textures_map[active_unamon_for_sprite.name]
 	sprite.visible = true
 	sprite.modulate = Color(0.5, 0.8, 1.0, 0.0)
