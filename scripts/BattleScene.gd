@@ -3,18 +3,20 @@ extends Node2D
 
 # --- Constants ---
 const LEVEL = 50
-const TYPEWRITER_DELAY = 0.05  # Slightly slower for better readability
+const TYPEWRITER_DELAY = 0.05
 const MESSAGE_DELAY = 0.75
 const CRY_DUCK_VOLUME = -10.0
 const NORMAL_MUSIC_VOLUME = 0.0
-const FAILSAFE_TIMEOUT = 5.0  # Reduced from 30.0 to 5.0 seconds for faster recovery
-const UI_FAILSAFE_TIMEOUT = 2.0  # New constant for UI-specific failsafes
-const PLAYER_INPUT_TIMEOUT = 60.0  # New constant for player input timeout (1 minute)
-const SWITCH_ANIMATION_DURATION = 1.5  # Reduced from 3.0 for better responsiveness
+const FAILSAFE_TIMEOUT = 5.0
+const UI_FAILSAFE_TIMEOUT = 2.0
+const PLAYER_INPUT_TIMEOUT = 60.0
+const SWITCH_ANIMATION_DURATION = 1.5
 const MAX_LOG_LINES = 4
 const DAMAGE_RANDOM_RANGE_MIN = 0.85
 const DAMAGE_RANDOM_RANGE_MAX = 1.0
 const STAB_MULTIPLIER = 1.5
+const CRITICAL_HIT_MULTIPLIER = 1.5
+const BASE_CRITICAL_HIT_CHANCE = 0.0625  # 6.25% base critical hit chance
 const BASE_DAMAGE_DIVISOR = 50.0
 const BASE_DAMAGE_ADDITION = 2.0
 
@@ -144,11 +146,11 @@ func _validate_required_resources() -> bool:
 		
 	# Validate sprite entries
 	for entry in unamon_sprite_entries:
-		if not entry or entry.entry_name.is_empty() or not entry.texture:
+		if not entry or entry.entry_name.is_empty() or not entry.front_texture:
 			missing_resources.append("Unamon: " + (entry.entry_name if entry else "null"))
 			
 	for entry in opponent_trainer_sprite_entries:
-		if not entry or entry.entry_name.is_empty() or not entry.texture:
+		if not entry or entry.entry_name.is_empty() or not entry.front_texture:
 			missing_resources.append("Trainer: " + (entry.entry_name if entry else "null"))
 			
 	if not missing_resources.is_empty():
@@ -413,18 +415,17 @@ func opponent_action() -> void:
 # --- Resource Management ---
 func _setup_sprite_maps() -> void:
 	for entry in unamon_sprite_entries:
-		if entry and entry.entry_name != "" and entry.texture:
-			_unamon_textures_map[entry.entry_name] = entry.texture
+		if entry and not entry.entry_name.is_empty():
+			_unamon_textures_map[entry.entry_name] = {
+				"front": entry.front_texture,
+				"back": entry.back_texture if entry.back_texture else entry.front_texture # Fallback to front texture if no back texture
+			}
 			if entry.cry_sound:
 				_unamon_cry_sounds_map[entry.entry_name] = entry.cry_sound
-		elif entry:
-			printerr("Invalid Unamon SpriteEntry: Name or Texture missing. Name: '", entry.entry_name, "'")
-
+				
 	for entry in opponent_trainer_sprite_entries:
-		if entry and entry.entry_name != "" and entry.texture:
-			_opponent_trainer_textures_map[entry.entry_name] = entry.texture
-		elif entry:
-			printerr("Invalid Opponent Trainer SpriteEntry: Name or Texture missing. Name: '", entry.entry_name, "'")
+		if entry and not entry.entry_name.is_empty():
+			_opponent_trainer_textures_map[entry.entry_name] = entry.front_texture
 
 func _setup_sound_streams() -> void:
 	if battle_music:
@@ -613,23 +614,34 @@ func calculate_damage(attacker: Dictionary, defender: Dictionary, move: Dictiona
 		attacker_stat = attacker.calculated_stats.special_attack
 		defender_stat = defender.calculated_stats.special_defense
 
+	# Check for critical hit
+	var is_critical = randf() < BASE_CRITICAL_HIT_CHANCE
+	var critical_multiplier = CRITICAL_HIT_MULTIPLIER if is_critical else 1.0
+	
 	var stab_multiplier = STAB_MULTIPLIER if move.type in attacker.types else 1.0
 	var type_effectiveness_multiplier = preload("res://scripts/UnamonData.gd").get_type_effectiveness(move.type, defender.types)
 
 	if type_effectiveness_multiplier > 1.1:
 		add_battle_log_message_to_queue("It's super effective!")
-	if type_effectiveness_multiplier < 0.9 and type_effectiveness_multiplier > 0.01:
+	elif type_effectiveness_multiplier < 0.9 and type_effectiveness_multiplier > 0.01:
 		add_battle_log_message_to_queue("It's not very effective...")
+	elif type_effectiveness_multiplier == 0.0:
+		add_battle_log_message_to_queue("It had no effect...")
+	
+	if is_critical:
+		add_battle_log_message_to_queue("A critical hit!")
 	
 	if move.name == "Night Shade":
 		if type_effectiveness_multiplier == 0.0:
 			return 0
-		return LEVEL
+		return attacker.level
 
-	var base_damage_numerator = (2.0 * LEVEL / 5.0 + 2.0) * move.power * (float(attacker_stat) / float(max(1, defender_stat)))
-	var base_damage = base_damage_numerator / BASE_DAMAGE_DIVISOR + BASE_DAMAGE_ADDITION
+	# Pokémon damage formula
+	var level_factor = (2.0 * attacker.level / 5.0 + 2.0)
+	var attack_defense_ratio = float(attacker_stat) / float(max(1, defender_stat))
+	var base_damage = (level_factor * move.power * attack_defense_ratio / 50.0) + 2.0
 	
-	var final_damage = int(base_damage * stab_multiplier * type_effectiveness_multiplier)
+	var final_damage = int(base_damage * stab_multiplier * type_effectiveness_multiplier * critical_multiplier)
 	final_damage = int(final_damage * randf_range(DAMAGE_RANDOM_RANGE_MIN, DAMAGE_RANDOM_RANGE_MAX))
 	return max(0 if type_effectiveness_multiplier == 0.0 else 1, final_damage)
 
@@ -742,7 +754,7 @@ func play_switch_in_animation(sprite: Sprite2D) -> void:
 	# Set initial position based on whether it's player or opponent
 	var start_pos = Vector2(284, 417) if sprite == player_unamon_sprite_node else Vector2(926, 185)
 	sprite.position = start_pos
-	sprite.texture = _unamon_textures_map[active_unamon_for_sprite.name]
+	sprite.texture = _unamon_textures_map[active_unamon_for_sprite.name]["front"]
 	sprite.visible = true
 	sprite.modulate = Color(0.5, 0.8, 1.0, 0.0)
 	
@@ -787,7 +799,8 @@ func update_unamon_display(unamon: Dictionary, is_player: bool, is_initial_setup
 
 	if unamon and unamon.has("name"):
 		if _unamon_textures_map.has(unamon.name):
-			sprite_node_to_update.texture = _unamon_textures_map[unamon.name]
+			var textures = _unamon_textures_map[unamon.name]
+			sprite_node_to_update.texture = textures["front"]
 			sprite_node_to_update.visible = true
 			if is_initial_setup_or_direct_set:
 				sprite_node_to_update.modulate = Color.WHITE
@@ -796,7 +809,7 @@ func update_unamon_display(unamon: Dictionary, is_player: bool, is_initial_setup
 			sprite_node_to_update.texture = null
 			sprite_node_to_update.visible = false
 
-		name_label.text = unamon.name + " (Lvl " + str(LEVEL) + ")"
+		name_label.text = unamon.name + " (Lvl " + str(unamon.level) + ")"
 	else:
 		sprite_node_to_update.texture = null
 		sprite_node_to_update.visible = false
@@ -829,7 +842,7 @@ func play_battle_entry_animation(is_player: bool) -> void:
 		sprite_node.texture = null
 		return
 	
-	sprite_node.texture = _unamon_textures_map[unamon.name]
+	sprite_node.texture = _unamon_textures_map[unamon.name]["front"]
 	
 	# Set initial position and scale
 	var start_pos = Vector2(284, 417) if is_player else Vector2(926, 185)
@@ -860,13 +873,15 @@ func _play_initial_animations() -> void:
 
 	# Set initial textures
 	if player_active_unamon and _unamon_textures_map.has(player_active_unamon.name):
-		player_unamon_sprite_node.texture = _unamon_textures_map[player_active_unamon.name]
+		var textures = _unamon_textures_map[player_active_unamon.name]
+		player_unamon_sprite_node.texture = textures["back"]
 	else:
 		printerr("Failed to set initial player Unamon texture")
 		return
 
 	if opponent_active_unamon and _unamon_textures_map.has(opponent_active_unamon.name):
-		opponent_unamon_sprite_node.texture = _unamon_textures_map[opponent_active_unamon.name]
+		var textures = _unamon_textures_map[opponent_active_unamon.name]
+		opponent_unamon_sprite_node.texture = textures["front"]
 	else:
 		printerr("Failed to set initial opponent Unamon texture")
 		return
@@ -945,3 +960,50 @@ func opponent_switch_fainted() -> void:
 			action_menu.visible = true
 	else:
 		game_over(true)
+
+# --- Sprite Management ---
+func _update_unamon_sprites() -> void:
+	if player_active_unamon and _unamon_textures_map.has(player_active_unamon.name):
+		var textures = _unamon_textures_map[player_active_unamon.name]
+		player_unamon_sprite_node.texture = textures["back"] # Player's Unamon uses back sprite
+		
+	if opponent_active_unamon and _unamon_textures_map.has(opponent_active_unamon.name):
+		var textures = _unamon_textures_map[opponent_active_unamon.name]
+		opponent_unamon_sprite_node.texture = textures["front"] # Opponent's Unamon uses front sprite
+
+func _set_unamon_sprite(sprite: Sprite2D, active_unamon_for_sprite: Dictionary) -> void:
+	var start_pos = Vector2(284, 417) if sprite == player_unamon_sprite_node else Vector2(926, 185)
+	sprite.position = start_pos
+	var textures = _unamon_textures_map[active_unamon_for_sprite.name]
+	sprite.texture = textures["back"] if sprite == player_unamon_sprite_node else textures["front"]
+	sprite.visible = true
+	sprite.modulate = Color(0.5, 0.8, 1.0, 0.0)
+
+func _update_sprite_for_unamon(sprite_node_to_update: Sprite2D, unamon: Dictionary, is_initial_setup_or_direct_set: bool = false) -> void:
+	if not unamon or not unamon.has("name"):
+		printerr("Invalid Unamon data provided to _update_sprite_for_unamon")
+		return
+		
+	if unamon and unamon.has("name"):
+		if _unamon_textures_map.has(unamon.name):
+			var textures = _unamon_textures_map[unamon.name]
+			sprite_node_to_update.texture = textures["back"] if sprite_node_to_update == player_unamon_sprite_node else textures["front"]
+			sprite_node_to_update.visible = true
+			if is_initial_setup_or_direct_set:
+				sprite_node_to_update.modulate = Color(1, 1, 1, 1)
+		else:
+			printerr("No texture found for Unamon: ", unamon.name)
+
+func _play_switch_animation(sprite_node: Sprite2D, unamon: Dictionary) -> void:
+	if not unamon or not unamon.has("name"):
+		printerr("Invalid Unamon data provided to _play_switch_animation")
+		return
+		
+	var textures = _unamon_textures_map[unamon.name]
+	sprite_node.texture = textures["back"] if sprite_node == player_unamon_sprite_node else textures["front"]
+	
+	# Set initial position and scale
+	var start_pos = Vector2(284, 417) if sprite_node == player_unamon_sprite_node else Vector2(926, 185)
+	sprite_node.position = start_pos
+	sprite_node.scale = Vector2(0.3, 0.3)
+	sprite_node.visible = true

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dq0oh3lh6ey71"
-path="res://.godot/imported/smoglet.png-4934d05eebba7664375ae66fd471466f.ctex"
+uid="uid://bwsrk781oxapx"
+path="res://.godot/imported/smoglet_back.png-bec3a86388de51be1fd4d1aec52780dd.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/unamon/smoglet.png"
-dest_files=["res://.godot/imported/smoglet.png-4934d05eebba7664375ae66fd471466f.ctex"]
+source_file="res://sprites/unamon/smoglet_back.png"
+dest_files=["res://.godot/imported/smoglet_back.png-bec3a86388de51be1fd4d1aec52780dd.ctex"]
 
 [params]
 

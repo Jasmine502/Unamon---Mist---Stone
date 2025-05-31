@@ -146,72 +146,162 @@ const MOVES_DATABASE = {
 }
 
 const TYPE_EFFECTIVENESS_CHART = {
+	TYPES.NORMAL: {
+		TYPES.ROCK: 0.5,
+		TYPES.GHOST: 0.0,
+		TYPES.STEEL: 0.5
+	},
 	TYPES.FIRE: {
-		TYPES.GRASS: 2.0, TYPES.ICE: 2.0, TYPES.BUG: 2.0,
-		TYPES.FIRE: 0.5, TYPES.WATER: 0.5, TYPES.ROCK: 0.5, TYPES.DRAGON: 0.5
+		TYPES.FIRE: 0.5,
+		TYPES.WATER: 0.5,
+		TYPES.GRASS: 2.0,
+		TYPES.ICE: 2.0,
+		TYPES.BUG: 2.0,
+		TYPES.ROCK: 0.5,
+		TYPES.DRAGON: 0.5,
+		TYPES.STEEL: 2.0
 	},
 	TYPES.WATER: {
-		TYPES.FIRE: 2.0, TYPES.GROUND: 2.0, TYPES.ROCK: 2.0,
-		TYPES.WATER: 0.5, TYPES.GRASS: 0.5, TYPES.DRAGON: 0.5
+		TYPES.FIRE: 2.0,
+		TYPES.WATER: 0.5,
+		TYPES.GRASS: 0.5,
+		TYPES.GROUND: 2.0,
+		TYPES.ROCK: 2.0,
+		TYPES.DRAGON: 0.5
 	},
 	TYPES.GRASS: {
-		TYPES.WATER: 2.0, TYPES.GROUND: 2.0, TYPES.ROCK: 2.0,
-		TYPES.FIRE: 0.5, TYPES.GRASS: 0.5, TYPES.POISON: 0.5, TYPES.FLYING: 0.5, TYPES.BUG: 0.5, TYPES.DRAGON: 0.5, TYPES.STEEL: 0.5
+		TYPES.FIRE: 0.5,
+		TYPES.WATER: 2.0,
+		TYPES.GRASS: 0.5,
+		TYPES.POISON: 0.5,
+		TYPES.GROUND: 2.0,
+		TYPES.FLYING: 0.5,
+		TYPES.BUG: 0.5,
+		TYPES.ROCK: 2.0,
+		TYPES.DRAGON: 0.5,
+		TYPES.STEEL: 0.5
 	},
 	TYPES.ELECTRIC: {
-		TYPES.WATER: 2.0, TYPES.FLYING: 2.0,
-		TYPES.GRASS: 0.5, TYPES.ELECTRIC: 0.5, TYPES.DRAGON: 0.5,
-		TYPES.GROUND: 0.0
+		TYPES.WATER: 2.0,
+		TYPES.ELECTRIC: 0.5,
+		TYPES.GRASS: 0.5,
+		TYPES.GROUND: 0.0,
+		TYPES.FLYING: 2.0,
+		TYPES.DRAGON: 0.5
 	},
 	TYPES.ICE: {
-		TYPES.GRASS: 2.0, TYPES.GROUND: 2.0, TYPES.FLYING: 2.0, TYPES.DRAGON: 2.0,
-		TYPES.FIRE: 0.5, TYPES.WATER: 0.5, TYPES.ICE: 0.5, TYPES.STEEL: 0.5
+		TYPES.FIRE: 0.5,
+		TYPES.WATER: 0.5,
+		TYPES.GRASS: 2.0,
+		TYPES.ICE: 0.5,
+		TYPES.GROUND: 2.0,
+		TYPES.FLYING: 2.0,
+		TYPES.DRAGON: 2.0,
+		TYPES.STEEL: 0.5
 	},
 	TYPES.FIGHTING: {
-		TYPES.NORMAL: 2.0, TYPES.ICE: 2.0, TYPES.ROCK: 2.0, TYPES.DARK: 2.0, TYPES.STEEL: 2.0,
-		TYPES.POISON: 0.5, TYPES.FLYING: 0.5, TYPES.PSYCHIC: 0.5, TYPES.BUG: 0.5, TYPES.FAIRY: 0.5,
-		TYPES.GHOST: 0.0
+		TYPES.NORMAL: 2.0,
+		TYPES.ICE: 2.0,
+		TYPES.POISON: 0.5,
+		TYPES.FLYING: 0.5,
+		TYPES.PSYCHIC: 0.5,
+		TYPES.BUG: 0.5,
+		TYPES.ROCK: 2.0,
+		TYPES.GHOST: 0.0,
+		TYPES.DARK: 2.0,
+		TYPES.STEEL: 2.0,
+		TYPES.FAIRY: 0.5
+	},
+	TYPES.POISON: {
+		TYPES.GRASS: 2.0,
+		TYPES.POISON: 0.5,
+		TYPES.GROUND: 0.5,
+		TYPES.ROCK: 0.5,
+		TYPES.GHOST: 0.5,
+		TYPES.STEEL: 0.0,
+		TYPES.FAIRY: 2.0
+	},
+	TYPES.GROUND: {
+		TYPES.FIRE: 2.0,
+		TYPES.ELECTRIC: 2.0,
+		TYPES.GRASS: 0.5,
+		TYPES.POISON: 2.0,
+		TYPES.FLYING: 0.0,
+		TYPES.BUG: 0.5,
+		TYPES.ROCK: 2.0,
+		TYPES.STEEL: 2.0
 	},
 	TYPES.FLYING: {
-		TYPES.GRASS: 2.0, TYPES.FIGHTING: 2.0, TYPES.BUG: 2.0,
-		TYPES.ELECTRIC: 0.5, TYPES.ROCK: 0.5, TYPES.STEEL: 0.5
+		TYPES.ELECTRIC: 0.5,
+		TYPES.GRASS: 2.0,
+		TYPES.FIGHTING: 2.0,
+		TYPES.BUG: 2.0,
+		TYPES.ROCK: 0.5,
+		TYPES.STEEL: 0.5
+	},
+	TYPES.PSYCHIC: {
+		TYPES.FIGHTING: 2.0,
+		TYPES.POISON: 2.0,
+		TYPES.PSYCHIC: 0.5,
+		TYPES.DARK: 0.0,
+		TYPES.STEEL: 0.5
+	},
+	TYPES.BUG: {
+		TYPES.FIRE: 0.5,
+		TYPES.GRASS: 2.0,
+		TYPES.FIGHTING: 0.5,
+		TYPES.POISON: 0.5,
+		TYPES.FLYING: 0.5,
+		TYPES.PSYCHIC: 2.0,
+		TYPES.GHOST: 0.5,
+		TYPES.DARK: 2.0,
+		TYPES.STEEL: 0.5,
+		TYPES.FAIRY: 0.5
+	},
+	TYPES.ROCK: {
+		TYPES.FIRE: 2.0,
+		TYPES.ICE: 2.0,
+		TYPES.FIGHTING: 0.5,
+		TYPES.GROUND: 0.5,
+		TYPES.FLYING: 2.0,
+		TYPES.BUG: 2.0,
+		TYPES.STEEL: 0.5
 	},
 	TYPES.GHOST: {
-		TYPES.GHOST: 2.0, TYPES.PSYCHIC: 2.0,
-		TYPES.DARK: 0.5,
-		TYPES.NORMAL: 0.0
+		TYPES.NORMAL: 0.0,
+		TYPES.PSYCHIC: 2.0,
+		TYPES.GHOST: 2.0,
+		TYPES.DARK: 0.5
 	},
 	TYPES.DRAGON: {
 		TYPES.DRAGON: 2.0,
 		TYPES.STEEL: 0.5,
 		TYPES.FAIRY: 0.0
 	},
-	TYPES.BUG: {
-		TYPES.GRASS: 2.0, TYPES.PSYCHIC: 2.0, TYPES.DARK: 2.0,
-		TYPES.FIRE: 0.5, TYPES.FIGHTING: 0.5, TYPES.POISON: 0.5, TYPES.FLYING: 0.5, TYPES.GHOST: 0.5, TYPES.STEEL: 0.5, TYPES.FAIRY: 0.5
+	TYPES.DARK: {
+		TYPES.FIGHTING: 0.5,
+		TYPES.PSYCHIC: 2.0,
+		TYPES.GHOST: 2.0,
+		TYPES.DARK: 0.5,
+		TYPES.FAIRY: 0.5
 	},
-	TYPES.GROUND: {
-		TYPES.FIRE: 2.0, TYPES.ELECTRIC: 2.0, TYPES.POISON: 2.0, TYPES.ROCK: 2.0, TYPES.STEEL: 2.0,
-		TYPES.GRASS: 0.5, TYPES.BUG: 0.5,
-		TYPES.FLYING: 0.0
+	TYPES.STEEL: {
+		TYPES.FIRE: 0.5,
+		TYPES.WATER: 0.5,
+		TYPES.ELECTRIC: 0.5,
+		TYPES.ICE: 2.0,
+		TYPES.ROCK: 2.0,
+		TYPES.STEEL: 0.5,
+		TYPES.FAIRY: 2.0
 	},
-	TYPES.PSYCHIC: {
-		TYPES.FIGHTING: 2.0, TYPES.POISON: 2.0,
-		TYPES.PSYCHIC: 0.5, TYPES.STEEL: 0.5,
-		TYPES.DARK: 0.0
-	},
-	TYPES.NORMAL: {
-		TYPES.ROCK: 0.5, TYPES.STEEL: 0.5,
-		TYPES.GHOST: 0.0
-	},
-	TYPES.ROCK: { 
-		TYPES.FIRE: 2.0, TYPES.ICE: 2.0, TYPES.FLYING: 2.0, TYPES.BUG: 2.0,
-		TYPES.FIGHTING: 0.5, TYPES.GROUND: 0.5, TYPES.STEEL: 0.5
-	},
-	TYPES.POISON: {}, 
-	TYPES.STEEL: {}, 
-	TYPES.DARK: {},  
-	TYPES.FAIRY: {}
+	TYPES.FAIRY: {
+		TYPES.FIRE: 0.5,
+		TYPES.FIGHTING: 2.0,
+		TYPES.POISON: 0.5,
+		TYPES.DRAGON: 2.0,
+		TYPES.DARK: 2.0,
+		TYPES.STEEL: 0.5
+	}
 }
 
 const OPPONENTS = {
@@ -284,27 +374,33 @@ const OPPONENTS = {
 }
 
 
-static func calculate_unamon_stats(base_unamon_data: Dictionary):
+static func calculate_unamon_stats(base_unamon_data: Dictionary, level: int = 50):
 	var calculated_stats = {}
 	var base_stats = base_unamon_data.base_stats
-	calculated_stats.max_hp = base_stats.VIT + 100
+	
+	# HP = ((2 * Base + IV + EV/4) * Level / 100) + Level + 10
+	calculated_stats.max_hp = int(((2 * base_stats.VIT + 31 + 0) * level / 100.0) + level + 10)
 	calculated_stats.current_hp = calculated_stats.max_hp
-	calculated_stats.attack = base_stats.STR + 25
-	calculated_stats.defense = base_stats.RES + 25
-	calculated_stats.special_attack = base_stats.ESS + 25
-	calculated_stats.special_defense = base_stats.SPI + 25
-	calculated_stats.speed = base_stats.AGI + 25
+	
+	# Other stats = ((2 * Base + IV + EV/4) * Level / 100) + 5
+	calculated_stats.attack = int(((2 * base_stats.STR + 31 + 0) * level / 100.0) + 5)
+	calculated_stats.defense = int(((2 * base_stats.RES + 31 + 0) * level / 100.0) + 5)
+	calculated_stats.special_attack = int(((2 * base_stats.ESS + 31 + 0) * level / 100.0) + 5)
+	calculated_stats.special_defense = int(((2 * base_stats.SPI + 31 + 0) * level / 100.0) + 5)
+	calculated_stats.speed = int(((2 * base_stats.AGI + 31 + 0) * level / 100.0) + 5)
+	
 	return calculated_stats
 
-static func create_unamon_instance(unamon_name: String):
+static func create_unamon_instance(unamon_name: String, min_level: int = 45, max_level: int = 55):
 	if not UNAMON_DATABASE.has(unamon_name):
 		printerr("Unamon not found in database: ", unamon_name)
 		return null
 
 	var base_data = UNAMON_DATABASE[unamon_name]
 	var instance = base_data.duplicate(true)
-	instance.name = unamon_name # Add name to instance for easy access
-	instance.calculated_stats = calculate_unamon_stats(base_data)
+	instance.name = unamon_name
+	instance.level = randi_range(min_level, max_level)
+	instance.calculated_stats = calculate_unamon_stats(base_data, instance.level)
 
 	var moves_instances = []
 	for move_name_str in base_data.moves:

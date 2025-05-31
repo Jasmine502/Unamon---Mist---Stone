@@ -1,11 +1,12 @@
-[gd_scene load_steps=127 format=3 uid="uid://drnv6le1b63ev"]
+[gd_scene load_steps=128 format=3 uid="uid://drnv6le1b63ev"]
 
 [ext_resource type="Script" uid="uid://cooc50ixagou3" path="res://scripts/BattleScene.gd" id="1_bsu3s"]
-[ext_resource type="Texture2D" uid="uid://dq0oh3lh6ey71" path="res://sprites/unamon/smoglet.png" id="1_gkmpl"]
+[ext_resource type="Texture2D" uid="uid://dq0oh3lh6ey71" path="res://sprites/unamon/smoglet_front.png" id="1_gkmpl"]
 [ext_resource type="Texture2D" uid="uid://u1xisbaqmn1v" path="res://sprites/unamon/marinawk.png" id="2_3mvhd"]
 [ext_resource type="Texture2D" uid="uid://752lh62vfp64" path="res://sprites/trainers/trainer_player_placeholder.png" id="2_hrc4b"]
 [ext_resource type="Script" uid="uid://bkn5u8haatvsm" path="res://scripts/SpriteEntry.gd" id="2_vtyuj"]
 [ext_resource type="AudioStream" uid="uid://b8fefqx3rrr0p" path="res://sounds/sfx/cries/01-SMOGLET.ogg" id="3_i8qvm"]
+[ext_resource type="Texture2D" uid="uid://bwsrk781oxapx" path="res://sprites/unamon/smoglet_back.png" id="3_k2bpt"]
 [ext_resource type="Texture2D" uid="uid://cglx1oe8cq7ng" path="res://sprites/trainers/trainer_ego.png" id="3_sgm0l"]
 [ext_resource type="Texture2D" uid="uid://b2ou20nmyyn4w" path="res://sprites/unamon/flamura.png" id="4_lyay3"]
 [ext_resource type="AudioStream" uid="uid://csdb4dnvhu574" path="res://sounds/hit_sound.wav" id="4_sdfhe"]
@@ -30,376 +31,391 @@
 [ext_resource type="Texture2D" uid="uid://bhxmdodcl1m2" path="res://sprites/unamon/shocksteed.png" id="14_prxlm"]
 [ext_resource type="AudioStream" uid="uid://d1ueacltsknky" path="res://sounds/sfx/cries/07-CRACKLESAP.ogg" id="15_r4kuy"]
 [ext_resource type="Texture2D" uid="uid://o7cp30y7qo0" path="res://sprites/unamon/ryno.png" id="15_tse8l"]
-[ext_resource type="Texture2D" uid="uid://datcc74oybncc" path="res://sprites/trainers/trainer_aimee.png" id="16_j8k6u"]
-[ext_resource type="Texture2D" uid="uid://ba6eoltyjn07e" path="res://sprites/trainers/trainer_amy.png" id="17_0ec1h"]
 [ext_resource type="AudioStream" uid="uid://wo0lnsjbuij5" path="res://sounds/sfx/cries/08-SALAMENDRO.ogg" id="17_d1qpi"]
-[ext_resource type="Texture2D" uid="uid://bsi205gq7oy7" path="res://sprites/trainers/trainer_asteria.png" id="18_7hgux"]
 [ext_resource type="AudioStream" uid="uid://doo4cb6bljv5e" path="res://sounds/sfx/cries/09-WYVOROPHYLL.ogg" id="19_72s1w"]
-[ext_resource type="Texture2D" uid="uid://dr6wk0ra4fddp" path="res://sprites/trainers/trainer_ayla.png" id="19_s5sem"]
-[ext_resource type="Texture2D" uid="uid://xp7lqaa44ua6" path="res://sprites/trainers/trainer_bas.png" id="20_wdx4d"]
-[ext_resource type="Texture2D" uid="uid://bc7i8h827bwgt" path="res://sprites/trainers/trainer_bkyu.png" id="21_gmnrv"]
 [ext_resource type="AudioStream" uid="uid://csu3q6ed0hgcr" path="res://sounds/sfx/cries/10-CRYOUL.ogg" id="21_gpdlj"]
-[ext_resource type="Texture2D" uid="uid://cpwvlustkdcf1" path="res://sprites/trainers/trainer_brooks.png" id="22_osvr5"]
 [ext_resource type="AudioStream" uid="uid://dfnnbq8ulwr60" path="res://sounds/sfx/cries/11-CRYOPHANT.ogg" id="23_g7y7t"]
-[ext_resource type="Texture2D" uid="uid://cfkxaoyvecfhy" path="res://sprites/trainers/trainer_dustin.png" id="23_mj0st"]
-[ext_resource type="Texture2D" uid="uid://bl12bnsfs2xaj" path="res://sprites/trainers/trainer_esther.png" id="25_kwf4x"]
 [ext_resource type="AudioStream" uid="uid://d3gccnpohw57k" path="res://sounds/sfx/cries/12-SATIVAUR.ogg" id="25_oyjdy"]
-[ext_resource type="Texture2D" uid="uid://btemhp8eyuv2n" path="res://sprites/trainers/trainer_ghost.png" id="26_xe6ct"]
 [ext_resource type="AudioStream" uid="uid://drimux7gwjh4j" path="res://sounds/sfx/cries/13-MARIJUADON.ogg" id="27_37dq0"]
-[ext_resource type="Texture2D" uid="uid://bqh0t7kybx1hf" path="res://sprites/trainers/trainer_id.png" id="27_tba6u"]
-[ext_resource type="Texture2D" uid="uid://c6s8p43ft6x4n" path="res://sprites/trainers/trainer_kol.png" id="28_qq8kj"]
-[ext_resource type="Texture2D" uid="uid://dfk2fltm185oy" path="res://sprites/trainers/trainer_melanie.png" id="29_giceh"]
 [ext_resource type="AudioStream" uid="uid://dip0l8uk8e2c6" path="res://sounds/sfx/cries/14-SHOCKSTEED.ogg" id="29_inodm"]
-[ext_resource type="Texture2D" uid="uid://cvftau7etaxst" path="res://sprites/trainers/trainer_miyamoto.png" id="30_ljqkc"]
-[ext_resource type="Texture2D" uid="uid://b43pj58xcodr3" path="res://sprites/trainers/trainer_oj.png" id="31_et8hj"]
 [ext_resource type="AudioStream" uid="uid://bvm2v80npvcyb" path="res://sounds/sfx/cries/15-RYNO.ogg" id="31_k2bpt"]
-[ext_resource type="Texture2D" uid="uid://cwdt12pbiko10" path="res://sprites/trainers/trainer_pato.png" id="32_7e6db"]
-[ext_resource type="Texture2D" uid="uid://ddfds8eockm63" path="res://sprites/trainers/trainer_penny.png" id="33_uta05"]
-[ext_resource type="Texture2D" uid="uid://bayucqv2whj5i" path="res://sprites/trainers/trainer_pj.png" id="34_nd6w6"]
-[ext_resource type="Texture2D" uid="uid://i4i8kimyih31" path="res://sprites/trainers/trainer_satoshi.png" id="37_s5sem"]
-[ext_resource type="Texture2D" uid="uid://bo0wo61ynxxu6" path="res://sprites/trainers/trainer_sonia.png" id="38_gmnrv"]
-[ext_resource type="Texture2D" uid="uid://bhf1luh34sf5l" path="res://sprites/trainers/trainer_trix.png" id="39_osvr5"]
-[ext_resource type="Texture2D" uid="uid://vtxlkjxtlfia" path="res://sprites/trainers/trainer_xerberus.png" id="40_osvr5"]
-[ext_resource type="Texture2D" uid="uid://bvgq34lbr6u06" path="res://sprites/trainers/trainer_otto.png" id="56_inodm"]
-[ext_resource type="Texture2D" uid="uid://c24nuwfhlayl5" path="res://sprites/trainers/trainer_tobias.png" id="57_k2bpt"]
-[ext_resource type="Texture2D" uid="uid://duksdwrjtthkq" path="res://sprites/trainers/trainer_blackshadow.png" id="58_lyhyx"]
-[ext_resource type="Texture2D" uid="uid://cubktd246bet8" path="res://sprites/trainers/trainer_dede.png" id="59_mtgyj"]
-[ext_resource type="Texture2D" uid="uid://omxt4pe35nhe" path="res://sprites/trainers/trainer_moonmaniac.png" id="60_ch463"]
-[ext_resource type="Texture2D" uid="uid://byaamueaxjyrp" path="res://sprites/trainers/trainer_ohayo.png" id="61_h5qe7"]
-[ext_resource type="Texture2D" uid="uid://ne33a0x8l2xi" path="res://sprites/trainers/trainer_pjr.png" id="62_fnady"]
-[ext_resource type="Texture2D" uid="uid://xh12dx2f3hi1" path="res://sprites/trainers/trainer_postjay.png" id="63_oqnmf"]
-[ext_resource type="Texture2D" uid="uid://887r0uikccp1" path="res://sprites/trainers/trainer_sergeant.png" id="64_642jd"]
-[ext_resource type="Texture2D" uid="uid://djfb505od1ida" path="res://sprites/trainers/trainer_sunman.png" id="65_ydwjb"]
-[ext_resource type="Texture2D" uid="uid://okqwv4rqui6h" path="res://sprites/trainers/trainer_smiley.png" id="66_y7qg8"]
-[ext_resource type="Texture2D" uid="uid://bektwt24morq7" path="res://sprites/trainers/trainer_supernova.png" id="67_3ypt2"]
-[ext_resource type="Texture2D" uid="uid://b06c254tnuwev" path="res://sprites/trainers/trainer_coolstick.png" id="68_at8rk"]
+[ext_resource type="Texture2D" uid="uid://datcc74oybncc" path="res://sprites/trainers/trainer_aimee.png" id="34_k2bpt"]
+[ext_resource type="Texture2D" uid="uid://ba6eoltyjn07e" path="res://sprites/trainers/trainer_amy.png" id="35_lyhyx"]
+[ext_resource type="Texture2D" uid="uid://bsi205gq7oy7" path="res://sprites/trainers/trainer_asteria.png" id="36_mtgyj"]
+[ext_resource type="Texture2D" uid="uid://dr6wk0ra4fddp" path="res://sprites/trainers/trainer_ayla.png" id="37_ch463"]
+[ext_resource type="Texture2D" uid="uid://xp7lqaa44ua6" path="res://sprites/trainers/trainer_bas.png" id="38_h5qe7"]
+[ext_resource type="Texture2D" uid="uid://bc7i8h827bwgt" path="res://sprites/trainers/trainer_bkyu.png" id="39_fnady"]
+[ext_resource type="Texture2D" uid="uid://cpwvlustkdcf1" path="res://sprites/trainers/trainer_brooks.png" id="40_oqnmf"]
+[ext_resource type="Texture2D" uid="uid://cfkxaoyvecfhy" path="res://sprites/trainers/trainer_dustin.png" id="41_642jd"]
+[ext_resource type="Texture2D" uid="uid://bl12bnsfs2xaj" path="res://sprites/trainers/trainer_esther.png" id="43_ydwjb"]
+[ext_resource type="Texture2D" uid="uid://btemhp8eyuv2n" path="res://sprites/trainers/trainer_ghost.png" id="44_y7qg8"]
+[ext_resource type="Texture2D" uid="uid://bqh0t7kybx1hf" path="res://sprites/trainers/trainer_id.png" id="45_3ypt2"]
+[ext_resource type="Texture2D" uid="uid://c6s8p43ft6x4n" path="res://sprites/trainers/trainer_kol.png" id="46_at8rk"]
+[ext_resource type="Texture2D" uid="uid://dfk2fltm185oy" path="res://sprites/trainers/trainer_melanie.png" id="47_c62uo"]
+[ext_resource type="Texture2D" uid="uid://cvftau7etaxst" path="res://sprites/trainers/trainer_miyamoto.png" id="48_uw16o"]
+[ext_resource type="Texture2D" uid="uid://b43pj58xcodr3" path="res://sprites/trainers/trainer_oj.png" id="49_4eqnc"]
+[ext_resource type="Texture2D" uid="uid://cwdt12pbiko10" path="res://sprites/trainers/trainer_pato.png" id="50_l035x"]
+[ext_resource type="Texture2D" uid="uid://ddfds8eockm63" path="res://sprites/trainers/trainer_penny.png" id="51_glcsc"]
+[ext_resource type="Texture2D" uid="uid://bayucqv2whj5i" path="res://sprites/trainers/trainer_pj.png" id="52_82hfx"]
+[ext_resource type="Texture2D" uid="uid://i4i8kimyih31" path="res://sprites/trainers/trainer_satoshi.png" id="53_xkysh"]
+[ext_resource type="Texture2D" uid="uid://bo0wo61ynxxu6" path="res://sprites/trainers/trainer_sonia.png" id="54_0whdi"]
+[ext_resource type="Texture2D" uid="uid://bhf1luh34sf5l" path="res://sprites/trainers/trainer_trix.png" id="55_qmeo0"]
+[ext_resource type="Texture2D" uid="uid://vtxlkjxtlfia" path="res://sprites/trainers/trainer_xerberus.png" id="56_pbf2m"]
+[ext_resource type="Texture2D" uid="uid://bvgq34lbr6u06" path="res://sprites/trainers/trainer_otto.png" id="57_788cc"]
+[ext_resource type="Texture2D" uid="uid://c24nuwfhlayl5" path="res://sprites/trainers/trainer_tobias.png" id="58_podn7"]
+[ext_resource type="Texture2D" uid="uid://duksdwrjtthkq" path="res://sprites/trainers/trainer_blackshadow.png" id="59_3sk3j"]
+[ext_resource type="Texture2D" uid="uid://cubktd246bet8" path="res://sprites/trainers/trainer_dede.png" id="60_joob5"]
+[ext_resource type="Texture2D" uid="uid://omxt4pe35nhe" path="res://sprites/trainers/trainer_moonmaniac.png" id="61_j4rk1"]
+[ext_resource type="Texture2D" uid="uid://byaamueaxjyrp" path="res://sprites/trainers/trainer_ohayo.png" id="62_sxu03"]
+[ext_resource type="Texture2D" uid="uid://ne33a0x8l2xi" path="res://sprites/trainers/trainer_pjr.png" id="63_q5515"]
+[ext_resource type="Texture2D" uid="uid://xh12dx2f3hi1" path="res://sprites/trainers/trainer_postjay.png" id="64_smfbe"]
+[ext_resource type="Texture2D" uid="uid://887r0uikccp1" path="res://sprites/trainers/trainer_sergeant.png" id="65_rg3by"]
+[ext_resource type="Texture2D" uid="uid://djfb505od1ida" path="res://sprites/trainers/trainer_sunman.png" id="66_abkrx"]
+[ext_resource type="Texture2D" uid="uid://okqwv4rqui6h" path="res://sprites/trainers/trainer_smiley.png" id="67_qitxr"]
+[ext_resource type="Texture2D" uid="uid://bektwt24morq7" path="res://sprites/trainers/trainer_supernova.png" id="68_mf6oc"]
+[ext_resource type="Texture2D" uid="uid://b06c254tnuwev" path="res://sprites/trainers/trainer_coolstick.png" id="69_6w2ay"]
 [ext_resource type="Texture2D" uid="uid://crb47b28xonhw" path="res://sprites/background.png" id="74_inodm"]
 
 [sub_resource type="Resource" id="Resource_ahh7x"]
 script = ExtResource("2_vtyuj")
 entry_name = "Smoglet"
-texture = ExtResource("1_gkmpl")
+front_texture = ExtResource("1_gkmpl")
+back_texture = ExtResource("3_k2bpt")
 cry_sound = ExtResource("3_i8qvm")
 metadata/_custom_type_script = "uid://bkn5u8haatvsm"
 
 [sub_resource type="Resource" id="Resource_h7erw"]
 script = ExtResource("2_vtyuj")
 entry_name = "Flamura"
-texture = ExtResource("4_lyay3")
+front_texture = ExtResource("4_lyay3")
+back_texture = ExtResource("4_lyay3")
 cry_sound = ExtResource("5_d0o6i")
 metadata/_custom_type_script = "uid://bkn5u8haatvsm"
 
 [sub_resource type="Resource" id="Resource_s45ie"]
 script = ExtResource("2_vtyuj")
 entry_name = "Ignantom"
-texture = ExtResource("5_ikhwg")
+front_texture = ExtResource("5_ikhwg")
+back_texture = ExtResource("5_ikhwg")
 cry_sound = ExtResource("7_xkywx")
 metadata/_custom_type_script = "uid://bkn5u8haatvsm"
 
 [sub_resource type="Resource" id="Resource_242tl"]
 script = ExtResource("2_vtyuj")
 entry_name = "Flopix"
-texture = ExtResource("6_4gmaf")
+front_texture = ExtResource("6_4gmaf")
+back_texture = ExtResource("6_4gmaf")
 cry_sound = ExtResource("9_03wv6")
 metadata/_custom_type_script = "uid://bkn5u8haatvsm"
 
 [sub_resource type="Resource" id="Resource_v6eoa"]
 script = ExtResource("2_vtyuj")
 entry_name = "Aquilia"
-texture = ExtResource("7_0ec1h")
+front_texture = ExtResource("7_0ec1h")
+back_texture = ExtResource("7_0ec1h")
 cry_sound = ExtResource("11_l32qo")
 metadata/_custom_type_script = "uid://bkn5u8haatvsm"
 
 [sub_resource type="Resource" id="Resource_lckn5"]
 script = ExtResource("2_vtyuj")
 entry_name = "Marinawk"
-texture = ExtResource("2_3mvhd")
+front_texture = ExtResource("2_3mvhd")
+back_texture = ExtResource("2_3mvhd")
 cry_sound = ExtResource("13_ofjeq")
 metadata/_custom_type_script = "uid://bkn5u8haatvsm"
 
 [sub_resource type="Resource" id="Resource_prxlm"]
 script = ExtResource("2_vtyuj")
 entry_name = "Cracklesap"
-texture = ExtResource("7_twkpy")
+front_texture = ExtResource("7_twkpy")
+back_texture = ExtResource("7_twkpy")
 cry_sound = ExtResource("15_r4kuy")
 metadata/_custom_type_script = "uid://bkn5u8haatvsm"
 
 [sub_resource type="Resource" id="Resource_tse8l"]
 script = ExtResource("2_vtyuj")
 entry_name = "Salamendro"
-texture = ExtResource("8_dhoow")
+front_texture = ExtResource("8_dhoow")
+back_texture = ExtResource("8_dhoow")
 cry_sound = ExtResource("17_d1qpi")
 metadata/_custom_type_script = "uid://bkn5u8haatvsm"
 
 [sub_resource type="Resource" id="Resource_so6w4"]
 script = ExtResource("2_vtyuj")
 entry_name = "Wyvorophyll"
-texture = ExtResource("9_h7erw")
+front_texture = ExtResource("9_h7erw")
+back_texture = ExtResource("9_h7erw")
 cry_sound = ExtResource("19_72s1w")
 metadata/_custom_type_script = "uid://bkn5u8haatvsm"
 
 [sub_resource type="Resource" id="Resource_3jfyn"]
 script = ExtResource("2_vtyuj")
 entry_name = "Cryoul"
-texture = ExtResource("10_s45ie")
+front_texture = ExtResource("10_s45ie")
+back_texture = ExtResource("10_s45ie")
 cry_sound = ExtResource("21_gpdlj")
 metadata/_custom_type_script = "uid://bkn5u8haatvsm"
 
 [sub_resource type="Resource" id="Resource_qka88"]
 script = ExtResource("2_vtyuj")
 entry_name = "Cryophant"
-texture = ExtResource("11_242tl")
+front_texture = ExtResource("11_242tl")
+back_texture = ExtResource("11_242tl")
 cry_sound = ExtResource("23_g7y7t")
 metadata/_custom_type_script = "uid://bkn5u8haatvsm"
 
 [sub_resource type="Resource" id="Resource_b7xr6"]
 script = ExtResource("2_vtyuj")
 entry_name = "Sativaur"
-texture = ExtResource("12_v6eoa")
+front_texture = ExtResource("12_v6eoa")
+back_texture = ExtResource("12_v6eoa")
 cry_sound = ExtResource("25_oyjdy")
 metadata/_custom_type_script = "uid://bkn5u8haatvsm"
 
 [sub_resource type="Resource" id="Resource_3uy3p"]
 script = ExtResource("2_vtyuj")
 entry_name = "Marijuadon"
-texture = ExtResource("13_lckn5")
+front_texture = ExtResource("13_lckn5")
+back_texture = ExtResource("13_lckn5")
 cry_sound = ExtResource("27_37dq0")
 metadata/_custom_type_script = "uid://bkn5u8haatvsm"
 
 [sub_resource type="Resource" id="Resource_ej4si"]
 script = ExtResource("2_vtyuj")
 entry_name = "Shocksteed"
-texture = ExtResource("14_prxlm")
+front_texture = ExtResource("14_prxlm")
+back_texture = ExtResource("14_prxlm")
 cry_sound = ExtResource("29_inodm")
 metadata/_custom_type_script = "uid://bkn5u8haatvsm"
 
 [sub_resource type="Resource" id="Resource_gbss3"]
 script = ExtResource("2_vtyuj")
 entry_name = "Ryno"
-texture = ExtResource("15_tse8l")
+front_texture = ExtResource("15_tse8l")
+back_texture = ExtResource("15_tse8l")
 cry_sound = ExtResource("31_k2bpt")
 metadata/_custom_type_script = "uid://bkn5u8haatvsm"
 
 [sub_resource type="Resource" id="Resource_1d3uh"]
 script = ExtResource("2_vtyuj")
 entry_name = "Aimee"
-texture = ExtResource("16_j8k6u")
+front_texture = ExtResource("34_k2bpt")
 metadata/_custom_type_script = "uid://bkn5u8haatvsm"
 
 [sub_resource type="Resource" id="Resource_3a8rw"]
 script = ExtResource("2_vtyuj")
 entry_name = "Amy"
-texture = ExtResource("17_0ec1h")
+front_texture = ExtResource("35_lyhyx")
 metadata/_custom_type_script = "uid://bkn5u8haatvsm"
 
 [sub_resource type="Resource" id="Resource_sbyit"]
 script = ExtResource("2_vtyuj")
 entry_name = "Asteria"
-texture = ExtResource("18_7hgux")
+front_texture = ExtResource("36_mtgyj")
 metadata/_custom_type_script = "uid://bkn5u8haatvsm"
 
 [sub_resource type="Resource" id="Resource_tx5gc"]
 script = ExtResource("2_vtyuj")
 entry_name = "Ayla"
-texture = ExtResource("19_s5sem")
+front_texture = ExtResource("37_ch463")
 metadata/_custom_type_script = "uid://bkn5u8haatvsm"
 
 [sub_resource type="Resource" id="Resource_j8k6u"]
 script = ExtResource("2_vtyuj")
 entry_name = "Bas"
-texture = ExtResource("20_wdx4d")
+front_texture = ExtResource("38_h5qe7")
 metadata/_custom_type_script = "uid://bkn5u8haatvsm"
 
 [sub_resource type="Resource" id="Resource_0ec1h"]
 script = ExtResource("2_vtyuj")
 entry_name = "Bkyu"
-texture = ExtResource("21_gmnrv")
+front_texture = ExtResource("39_fnady")
 metadata/_custom_type_script = "uid://bkn5u8haatvsm"
 
 [sub_resource type="Resource" id="Resource_7hgux"]
 script = ExtResource("2_vtyuj")
 entry_name = "Brooks"
-texture = ExtResource("22_osvr5")
+front_texture = ExtResource("40_oqnmf")
 metadata/_custom_type_script = "uid://bkn5u8haatvsm"
 
 [sub_resource type="Resource" id="Resource_s5sem"]
 script = ExtResource("2_vtyuj")
 entry_name = "Dustin"
-texture = ExtResource("23_mj0st")
+front_texture = ExtResource("41_642jd")
 metadata/_custom_type_script = "uid://bkn5u8haatvsm"
 
 [sub_resource type="Resource" id="Resource_wdx4d"]
 script = ExtResource("2_vtyuj")
 entry_name = "Ego"
-texture = ExtResource("3_sgm0l")
+front_texture = ExtResource("3_sgm0l")
 metadata/_custom_type_script = "uid://bkn5u8haatvsm"
 
 [sub_resource type="Resource" id="Resource_gmnrv"]
 script = ExtResource("2_vtyuj")
 entry_name = "Esther"
-texture = ExtResource("25_kwf4x")
+front_texture = ExtResource("43_ydwjb")
 metadata/_custom_type_script = "uid://bkn5u8haatvsm"
 
 [sub_resource type="Resource" id="Resource_osvr5"]
 script = ExtResource("2_vtyuj")
 entry_name = "Ghost"
-texture = ExtResource("26_xe6ct")
+front_texture = ExtResource("44_y7qg8")
 metadata/_custom_type_script = "uid://bkn5u8haatvsm"
 
 [sub_resource type="Resource" id="Resource_mj0st"]
 script = ExtResource("2_vtyuj")
 entry_name = "Id"
-texture = ExtResource("27_tba6u")
+front_texture = ExtResource("45_3ypt2")
 metadata/_custom_type_script = "uid://bkn5u8haatvsm"
 
 [sub_resource type="Resource" id="Resource_kwf4x"]
 script = ExtResource("2_vtyuj")
 entry_name = "KOL"
-texture = ExtResource("28_qq8kj")
+front_texture = ExtResource("46_at8rk")
 metadata/_custom_type_script = "uid://bkn5u8haatvsm"
 
 [sub_resource type="Resource" id="Resource_xe6ct"]
 script = ExtResource("2_vtyuj")
 entry_name = "Melanie"
-texture = ExtResource("29_giceh")
+front_texture = ExtResource("47_c62uo")
 metadata/_custom_type_script = "uid://bkn5u8haatvsm"
 
 [sub_resource type="Resource" id="Resource_tba6u"]
 script = ExtResource("2_vtyuj")
 entry_name = "Miyamoto"
-texture = ExtResource("30_ljqkc")
+front_texture = ExtResource("48_uw16o")
 metadata/_custom_type_script = "uid://bkn5u8haatvsm"
 
 [sub_resource type="Resource" id="Resource_qq8kj"]
 script = ExtResource("2_vtyuj")
 entry_name = "OJ"
-texture = ExtResource("31_et8hj")
+front_texture = ExtResource("49_4eqnc")
 metadata/_custom_type_script = "uid://bkn5u8haatvsm"
 
 [sub_resource type="Resource" id="Resource_giceh"]
 script = ExtResource("2_vtyuj")
 entry_name = "Pato"
-texture = ExtResource("32_7e6db")
+front_texture = ExtResource("50_l035x")
 metadata/_custom_type_script = "uid://bkn5u8haatvsm"
 
 [sub_resource type="Resource" id="Resource_ljqkc"]
 script = ExtResource("2_vtyuj")
 entry_name = "Penny"
-texture = ExtResource("33_uta05")
+front_texture = ExtResource("51_glcsc")
 metadata/_custom_type_script = "uid://bkn5u8haatvsm"
 
 [sub_resource type="Resource" id="Resource_et8hj"]
 script = ExtResource("2_vtyuj")
 entry_name = "PJ"
-texture = ExtResource("34_nd6w6")
+front_texture = ExtResource("52_82hfx")
 metadata/_custom_type_script = "uid://bkn5u8haatvsm"
 
 [sub_resource type="Resource" id="Resource_7e6db"]
 script = ExtResource("2_vtyuj")
 entry_name = "Satoshi"
-texture = ExtResource("37_s5sem")
+front_texture = ExtResource("53_xkysh")
 metadata/_custom_type_script = "uid://bkn5u8haatvsm"
 
 [sub_resource type="Resource" id="Resource_uta05"]
 script = ExtResource("2_vtyuj")
 entry_name = "Sonia"
-texture = ExtResource("38_gmnrv")
+front_texture = ExtResource("54_0whdi")
 metadata/_custom_type_script = "uid://bkn5u8haatvsm"
 
 [sub_resource type="Resource" id="Resource_nd6w6"]
 script = ExtResource("2_vtyuj")
 entry_name = "Trix"
-texture = ExtResource("39_osvr5")
+front_texture = ExtResource("55_qmeo0")
 metadata/_custom_type_script = "uid://bkn5u8haatvsm"
 
 [sub_resource type="Resource" id="Resource_sxsuf"]
 script = ExtResource("2_vtyuj")
 entry_name = "Xerberus"
-texture = ExtResource("40_osvr5")
+front_texture = ExtResource("56_pbf2m")
 metadata/_custom_type_script = "uid://bkn5u8haatvsm"
 
 [sub_resource type="Resource" id="Resource_c62uo"]
 script = ExtResource("2_vtyuj")
 entry_name = "Otto"
-texture = ExtResource("56_inodm")
+front_texture = ExtResource("57_788cc")
 metadata/_custom_type_script = "uid://bkn5u8haatvsm"
 
 [sub_resource type="Resource" id="Resource_uw16o"]
 script = ExtResource("2_vtyuj")
 entry_name = "Tobias"
-texture = ExtResource("57_k2bpt")
+front_texture = ExtResource("58_podn7")
 metadata/_custom_type_script = "uid://bkn5u8haatvsm"
 
 [sub_resource type="Resource" id="Resource_4eqnc"]
 script = ExtResource("2_vtyuj")
 entry_name = "BlackShadow"
-texture = ExtResource("58_lyhyx")
+front_texture = ExtResource("59_3sk3j")
 metadata/_custom_type_script = "uid://bkn5u8haatvsm"
 
 [sub_resource type="Resource" id="Resource_l035x"]
 script = ExtResource("2_vtyuj")
 entry_name = "DeDe"
-texture = ExtResource("59_mtgyj")
+front_texture = ExtResource("60_joob5")
 metadata/_custom_type_script = "uid://bkn5u8haatvsm"
 
 [sub_resource type="Resource" id="Resource_glcsc"]
 script = ExtResource("2_vtyuj")
 entry_name = "MoonManiac"
-texture = ExtResource("60_ch463")
+front_texture = ExtResource("61_j4rk1")
 metadata/_custom_type_script = "uid://bkn5u8haatvsm"
 
 [sub_resource type="Resource" id="Resource_82hfx"]
 script = ExtResource("2_vtyuj")
 entry_name = "Ohayo"
-texture = ExtResource("61_h5qe7")
+front_texture = ExtResource("62_sxu03")
 metadata/_custom_type_script = "uid://bkn5u8haatvsm"
 
 [sub_resource type="Resource" id="Resource_xkysh"]
 script = ExtResource("2_vtyuj")
 entry_name = "PJR"
-texture = ExtResource("62_fnady")
+front_texture = ExtResource("63_q5515")
 metadata/_custom_type_script = "uid://bkn5u8haatvsm"
 
 [sub_resource type="Resource" id="Resource_0whdi"]
 script = ExtResource("2_vtyuj")
 entry_name = "PostJay"
-texture = ExtResource("63_oqnmf")
+front_texture = ExtResource("64_smfbe")
 metadata/_custom_type_script = "uid://bkn5u8haatvsm"
 
 [sub_resource type="Resource" id="Resource_qmeo0"]
 script = ExtResource("2_vtyuj")
 entry_name = "Sergeant"
-texture = ExtResource("64_642jd")
+front_texture = ExtResource("65_rg3by")
 metadata/_custom_type_script = "uid://bkn5u8haatvsm"
 
 [sub_resource type="Resource" id="Resource_pbf2m"]
 script = ExtResource("2_vtyuj")
 entry_name = "SunMan"
-texture = ExtResource("65_ydwjb")
+front_texture = ExtResource("66_abkrx")
 metadata/_custom_type_script = "uid://bkn5u8haatvsm"
 
 [sub_resource type="Resource" id="Resource_788cc"]
 script = ExtResource("2_vtyuj")
 entry_name = "Smiley"
-texture = ExtResource("66_y7qg8")
+front_texture = ExtResource("67_qitxr")
 metadata/_custom_type_script = "uid://bkn5u8haatvsm"
 
 [sub_resource type="Resource" id="Resource_podn7"]
 script = ExtResource("2_vtyuj")
 entry_name = "SuperNova"
-texture = ExtResource("67_3ypt2")
+front_texture = ExtResource("68_mf6oc")
 metadata/_custom_type_script = "uid://bkn5u8haatvsm"
 
 [sub_resource type="Resource" id="Resource_3sk3j"]
 script = ExtResource("2_vtyuj")
 entry_name = "CoolStick"
-texture = ExtResource("68_at8rk")
+front_texture = ExtResource("69_6w2ay")
 metadata/_custom_type_script = "uid://bkn5u8haatvsm"
 
 [sub_resource type="Resource" id="Resource_joob5"]
 script = ExtResource("2_vtyuj")
 entry_name = "PJ"
-texture = ExtResource("34_nd6w6")
+front_texture = ExtResource("52_82hfx")
 metadata/_custom_type_script = "uid://bkn5u8haatvsm"
 
 [node name="BattleScene" type="Node2D"]
@@ -421,11 +437,12 @@ expand_mode = 1
 
 [node name="PlayerUnamonSprite" type="Sprite2D" parent="."]
 texture_filter = 1
-position = Vector2(284, 417)
-scale = Vector2(0.3, 0.3)
+position = Vector2(287.2, 381.8)
+scale = Vector2(0.241797, 0.241797)
+texture = ExtResource("3_k2bpt")
 
 [node name="PlayerTrainerSprite" type="Sprite2D" parent="."]
-position = Vector2(120, 492)
+position = Vector2(73, 492)
 scale = Vector2(0.568848, 0.568848)
 texture = ExtResource("2_hrc4b")
 
