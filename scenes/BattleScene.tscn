@@ -1,4 +1,4 @@
-[gd_scene load_steps=128 format=3 uid="uid://drnv6le1b63ev"]
+[gd_scene load_steps=158 format=3 uid="uid://drnv6le1b63ev"]
 
 [ext_resource type="Script" uid="uid://cooc50ixagou3" path="res://scripts/BattleScene.gd" id="1_bsu3s"]
 [ext_resource type="Texture2D" uid="uid://dq0oh3lh6ey71" path="res://sprites/unamon/smoglet_front.png" id="1_gkmpl"]
@@ -74,7 +74,22 @@
 [ext_resource type="Texture2D" uid="uid://okqwv4rqui6h" path="res://sprites/trainers/trainer_smiley.png" id="67_qitxr"]
 [ext_resource type="Texture2D" uid="uid://bektwt24morq7" path="res://sprites/trainers/trainer_supernova.png" id="68_mf6oc"]
 [ext_resource type="Texture2D" uid="uid://b06c254tnuwev" path="res://sprites/trainers/trainer_coolstick.png" id="69_6w2ay"]
+[ext_resource type="Texture2D" uid="uid://bnjl473bqmago" path="res://sprites/trainers/trainer_kixxie.png" id="70_lyhyx"]
+[ext_resource type="Texture2D" uid="uid://kkcj3ftuclne" path="res://sprites/trainers/trainer_laura.png" id="71_ch463"]
+[ext_resource type="Texture2D" uid="uid://bkq5c1vl245cm" path="res://sprites/trainers/trainer_lila.png" id="72_h5qe7"]
+[ext_resource type="Texture2D" uid="uid://bvyhep3pq4ida" path="res://sprites/trainers/trainer_wachter.png" id="73_oqnmf"]
+[ext_resource type="Texture2D" uid="uid://ytntcokuiesu" path="res://sprites/trainers/trainer_sans.png" id="74_642jd"]
 [ext_resource type="Texture2D" uid="uid://crb47b28xonhw" path="res://sprites/background.png" id="74_inodm"]
+[ext_resource type="Texture2D" uid="uid://dgwghahl7c0x3" path="res://sprites/trainers/trainer_marceline.png" id="75_ydwjb"]
+[ext_resource type="Texture2D" uid="uid://c3wgmoqdqfu5e" path="res://sprites/trainers/trainer_sonicexe.png" id="76_642jd"]
+[ext_resource type="Texture2D" uid="uid://c8fhkmpp4ku2" path="res://sprites/trainers/trainer_walter.png" id="77_ydwjb"]
+[ext_resource type="Texture2D" uid="uid://bhim3xyqdy0ni" path="res://sprites/trainers/trainer_rock.png" id="78_y7qg8"]
+[ext_resource type="Texture2D" uid="uid://dskyshpyi0wbq" path="res://sprites/trainers/trainer_evelyn.png" id="79_3ypt2"]
+[ext_resource type="Texture2D" uid="uid://d36y0plyfeeka" path="res://sprites/trainers/trainer_general.png" id="80_at8rk"]
+[ext_resource type="Texture2D" uid="uid://dp1oydjvomu32" path="res://sprites/trainers/trainer_daisy.png" id="81_l035x"]
+[ext_resource type="Texture2D" uid="uid://deovt2q8ei6om" path="res://sprites/trainers/trainer_jasmine.png" id="82_glcsc"]
+[ext_resource type="Texture2D" uid="uid://dcihxt4101xsx" path="res://sprites/trainers/trainer_dylan.png" id="83_82hfx"]
+[ext_resource type="Texture2D" uid="uid://cpv7nl0ib3xsj" path="res://sprites/trainers/trainer_mar.png" id="84_xkysh"]
 
 [sub_resource type="Resource" id="Resource_ahh7x"]
 script = ExtResource("2_vtyuj")
@@ -418,10 +433,100 @@ entry_name = "PJ"
 front_texture = ExtResource("52_82hfx")
 metadata/_custom_type_script = "uid://bkn5u8haatvsm"
 
+[sub_resource type="Resource" id="Resource_mtgyj"]
+script = ExtResource("2_vtyuj")
+entry_name = "Kixxie"
+front_texture = ExtResource("70_lyhyx")
+metadata/_custom_type_script = "uid://bkn5u8haatvsm"
+
+[sub_resource type="Resource" id="Resource_fnady"]
+script = ExtResource("2_vtyuj")
+entry_name = "Laura"
+front_texture = ExtResource("71_ch463")
+metadata/_custom_type_script = "uid://bkn5u8haatvsm"
+
+[sub_resource type="Resource" id="Resource_oqnmf"]
+script = ExtResource("2_vtyuj")
+entry_name = "Lila"
+front_texture = ExtResource("72_h5qe7")
+metadata/_custom_type_script = "uid://bkn5u8haatvsm"
+
+[sub_resource type="Resource" id="Resource_y7qg8"]
+script = ExtResource("2_vtyuj")
+entry_name = "Wächter"
+front_texture = ExtResource("73_oqnmf")
+metadata/_custom_type_script = "uid://bkn5u8haatvsm"
+
+[sub_resource type="Resource" id="Resource_3ypt2"]
+script = ExtResource("2_vtyuj")
+entry_name = "Sans"
+front_texture = ExtResource("74_642jd")
+metadata/_custom_type_script = "uid://bkn5u8haatvsm"
+
+[sub_resource type="Resource" id="Resource_at8rk"]
+script = ExtResource("2_vtyuj")
+entry_name = "Marceline"
+front_texture = ExtResource("75_ydwjb")
+metadata/_custom_type_script = "uid://bkn5u8haatvsm"
+
+[sub_resource type="Resource" id="Resource_ydwjb"]
+script = ExtResource("2_vtyuj")
+entry_name = "Sonic.exe"
+front_texture = ExtResource("76_642jd")
+metadata/_custom_type_script = "uid://bkn5u8haatvsm"
+
+[sub_resource type="Resource" id="Resource_j4rk1"]
+script = ExtResource("2_vtyuj")
+entry_name = "Walter"
+front_texture = ExtResource("77_ydwjb")
+metadata/_custom_type_script = "uid://bkn5u8haatvsm"
+
+[sub_resource type="Resource" id="Resource_sxu03"]
+script = ExtResource("2_vtyuj")
+entry_name = "The Rock"
+front_texture = ExtResource("78_y7qg8")
+metadata/_custom_type_script = "uid://bkn5u8haatvsm"
+
+[sub_resource type="Resource" id="Resource_q5515"]
+script = ExtResource("2_vtyuj")
+entry_name = "Agent Mason"
+front_texture = ExtResource("79_3ypt2")
+metadata/_custom_type_script = "uid://bkn5u8haatvsm"
+
+[sub_resource type="Resource" id="Resource_smfbe"]
+script = ExtResource("2_vtyuj")
+entry_name = "General Tut"
+front_texture = ExtResource("80_at8rk")
+metadata/_custom_type_script = "uid://bkn5u8haatvsm"
+
+[sub_resource type="Resource" id="Resource_rg3by"]
+script = ExtResource("2_vtyuj")
+entry_name = "Daisy"
+front_texture = ExtResource("81_l035x")
+metadata/_custom_type_script = "uid://bkn5u8haatvsm"
+
+[sub_resource type="Resource" id="Resource_abkrx"]
+script = ExtResource("2_vtyuj")
+entry_name = "O5-1"
+front_texture = ExtResource("82_glcsc")
+metadata/_custom_type_script = "uid://bkn5u8haatvsm"
+
+[sub_resource type="Resource" id="Resource_qitxr"]
+script = ExtResource("2_vtyuj")
+entry_name = "O5-2"
+front_texture = ExtResource("83_82hfx")
+metadata/_custom_type_script = "uid://bkn5u8haatvsm"
+
+[sub_resource type="Resource" id="Resource_mf6oc"]
+script = ExtResource("2_vtyuj")
+entry_name = "O5-4"
+front_texture = ExtResource("84_xkysh")
+metadata/_custom_type_script = "uid://bkn5u8haatvsm"
+
 [node name="BattleScene" type="Node2D"]
 script = ExtResource("1_bsu3s")
 unamon_sprite_entries = Array[ExtResource("2_vtyuj")]([SubResource("Resource_ahh7x"), SubResource("Resource_h7erw"), SubResource("Resource_s45ie"), SubResource("Resource_242tl"), SubResource("Resource_v6eoa"), SubResource("Resource_lckn5"), SubResource("Resource_prxlm"), SubResource("Resource_tse8l"), SubResource("Resource_so6w4"), SubResource("Resource_3jfyn"), SubResource("Resource_qka88"), SubResource("Resource_b7xr6"), SubResource("Resource_3uy3p"), SubResource("Resource_ej4si"), SubResource("Resource_gbss3")])
-opponent_trainer_sprite_entries = Array[ExtResource("2_vtyuj")]([SubResource("Resource_1d3uh"), SubResource("Resource_3a8rw"), SubResource("Resource_sbyit"), SubResource("Resource_tx5gc"), SubResource("Resource_j8k6u"), SubResource("Resource_0ec1h"), SubResource("Resource_7hgux"), SubResource("Resource_s5sem"), SubResource("Resource_wdx4d"), SubResource("Resource_gmnrv"), SubResource("Resource_osvr5"), SubResource("Resource_mj0st"), SubResource("Resource_kwf4x"), SubResource("Resource_xe6ct"), SubResource("Resource_tba6u"), SubResource("Resource_qq8kj"), SubResource("Resource_giceh"), SubResource("Resource_ljqkc"), SubResource("Resource_et8hj"), SubResource("Resource_7e6db"), SubResource("Resource_uta05"), SubResource("Resource_nd6w6"), SubResource("Resource_sxsuf"), SubResource("Resource_c62uo"), SubResource("Resource_uw16o"), SubResource("Resource_4eqnc"), SubResource("Resource_l035x"), SubResource("Resource_glcsc"), SubResource("Resource_82hfx"), SubResource("Resource_xkysh"), SubResource("Resource_0whdi"), SubResource("Resource_qmeo0"), SubResource("Resource_pbf2m"), SubResource("Resource_788cc"), SubResource("Resource_podn7"), SubResource("Resource_3sk3j"), SubResource("Resource_joob5")])
+opponent_trainer_sprite_entries = Array[ExtResource("2_vtyuj")]([SubResource("Resource_1d3uh"), SubResource("Resource_3a8rw"), SubResource("Resource_sbyit"), SubResource("Resource_tx5gc"), SubResource("Resource_j8k6u"), SubResource("Resource_0ec1h"), SubResource("Resource_7hgux"), SubResource("Resource_s5sem"), SubResource("Resource_wdx4d"), SubResource("Resource_gmnrv"), SubResource("Resource_osvr5"), SubResource("Resource_mj0st"), SubResource("Resource_kwf4x"), SubResource("Resource_xe6ct"), SubResource("Resource_tba6u"), SubResource("Resource_qq8kj"), SubResource("Resource_giceh"), SubResource("Resource_ljqkc"), SubResource("Resource_et8hj"), SubResource("Resource_7e6db"), SubResource("Resource_uta05"), SubResource("Resource_nd6w6"), SubResource("Resource_sxsuf"), SubResource("Resource_c62uo"), SubResource("Resource_uw16o"), SubResource("Resource_4eqnc"), SubResource("Resource_l035x"), SubResource("Resource_glcsc"), SubResource("Resource_82hfx"), SubResource("Resource_xkysh"), SubResource("Resource_0whdi"), SubResource("Resource_qmeo0"), SubResource("Resource_pbf2m"), SubResource("Resource_788cc"), SubResource("Resource_podn7"), SubResource("Resource_3sk3j"), SubResource("Resource_joob5"), SubResource("Resource_mtgyj"), SubResource("Resource_fnady"), SubResource("Resource_oqnmf"), SubResource("Resource_y7qg8"), SubResource("Resource_3ypt2"), SubResource("Resource_at8rk"), SubResource("Resource_ydwjb"), SubResource("Resource_j4rk1"), SubResource("Resource_sxu03"), SubResource("Resource_q5515"), SubResource("Resource_smfbe"), SubResource("Resource_rg3by"), SubResource("Resource_abkrx"), SubResource("Resource_qitxr"), SubResource("Resource_mf6oc")])
 player_trainer_default_sprite = ExtResource("2_hrc4b")
 battle_music = ExtResource("7_a4ns4")
 hit_sound = ExtResource("4_sdfhe")

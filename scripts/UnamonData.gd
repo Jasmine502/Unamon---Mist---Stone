@@ -350,13 +350,11 @@ const OPPONENTS = {
 	# Final Team: ["Magmoroch", "Cryolantis", "Afterwrithe", "Tephron", "Stainana", "Vesophry"]
 	"Asteria":  {"team": ["Marijuadon", "Wyvorophyll", "Sativaur", "Flopix", "Aquilia", "Cracklesap"]},
 	# Final Team: ["Mamantera", "Galactortle", "Chrysogor", "Tephron", "Primoricorn", "Absequi"]
+	"Kixxie": {"team": ["Shocksteed", "Marinawk", "Ignantom", "Sativaur"]},
+	# Final Team: ["Faerumen", "Excavolt", "Vesophry", "Tephron (Ash Forme)", "Plumaru", "Inkitsu"]}
 	
 	# THIRD PARTY CHARACTERS
-	"DeDe": {"team": ["Ryno", "Ignantom", "Shocksteed"]},
-	"Smiley": {"team": ["Ignantom", "Cryoul", "Flamura", "Wyvorophyll"]},
 	"CoolStick": {"team": ["Ryno", "Ignantom", "Cryoul"]},
-	"Sergeant": {"team": ["Ignantom", "Salamendro"]},
-	"Tobias": {"team": ["Cracklesap", "Flopix"]},
 	"BlackShadow": {"team": ["Ignantom", "Shocksteed"]},
 	"SunMan": {"team": ["Salamendro", "Aquilia"]},
 	"MoonManiac": {"team": ["Cryoul", "Marinawk"]},
@@ -370,6 +368,42 @@ const OPPONENTS = {
 	# Final Team: ["Inkitsu", "Vocifer", "Neurocowl", "Sutursa", "Absequi", "Chrysogor"]
 	"SuperNova": {"team": ["Ryno", "Ignantom", "Shocksteed", "Marinawk"]},
 	# Final Team: ["Mamantera", "Tephron", "Faerumen", "Magmoroch", "Primoricorn", "Voidborne"]
+	
+	# OTHER DIMENSIONS
+	"DeDe": {"team": ["Ryno", "Ignantom", "Shocksteed"]},
+	"Smiley": {"team": ["Ignantom", "Cryoul", "Flamura", "Wyvorophyll"]},
+	"Laura": {"team": ["Cracklesap, Smoglet, Flopix"]},
+	# Final Team: Wyvorophyll, Ignantom, Marinawk, Sutursa, Absequi, Chrysogor
+	"Lila": {"team": ["Flopix, Sativaur"]},
+	# Final Team: Vesophry, Apoploox, Myrkkane, Neurocowl, Voidborne, Spookspew
+	"Tobias": {"team": ["Cracklesap, Flopix"]},
+	# Final Team: Stainana, Magmoroch, Excavolt, Faerumen, Plumaru, Shocksteed
+	"Sergeant": {"team": ["Ignantom, Salamendro"]},
+	# Final Team: Ryno, Stainana, Ignantom, Magmoroch, Titanger, Ferrizari
+	"Wächter": {"team": ["Ryno, Salamendro", "Ignantom"]},
+	# Final Team: Ryno, Titanger, Stainana, Ignantom, Magmoroch, Excavolt
+	"Sans": {"team": ["Smoglet", "Cryoul"]},
+	# Final Team: Apoploox, Gryfnosa, Voidborne, Cryolantis, Ignantom, Myrkkane
+	"Marceline": {"team": ["Ignantom", "Cryoul", "Smoglet"]},
+	# Final Team: Apoploox, Myrkkane, Vesophry, Vocifer, Spookspew, Neurocowl
+	"Sonic.exe": {"team": ["Ignantom"]},
+	# Final Team: Voidborne, Apoploox, Myrkkane, Afterwrithe, Ignantom, Vesophry
+	"Walter": {"team": ["Sativaur", "Smoglet", "Cracklesap"]},
+	# Final Team: Myrkkane, Spookspew, Mosantis, Exvil, Ectoxomoth, Vesophry
+	"The Rock": {"team": ["Ryno", "Ignantom", "Salamendro"]},
+	# Final Team: Titanger, Ryno, Landignor, Stainana, Gryfleia, Terroforma
+	"Agent Mason": {"team": ["Marinawk", "Salamendro", "Shocksteed"]},
+	# Final Team: Ferrizari, Stainana, Excavolt, Gryfleia, Tephron, Aquamyst
+	"General Tut": {"team": ["Ryno", "Ignantom", "Salamendro", "Shocksteed"]},
+	# Final Team: Titanger, Stainana, Magmoroch, Apoploox, Ferrizari, Excavolt
+	"Daisy": {"team": ["Flamf", "Nutlet", "Wottle"]},
+	# Final Team: Mutamania, Mosantis, Spookspew, Exvil, Vesophry, Apoploox
+	"O5-1": {"team": ["Aquilia", "Cracklesap", "Sativaur"]},
+	# Final Team: Tephron, Chrysogor, Galactortle, Sutursa, Primoricorn, Faerumen
+	"O5-2": {"team": ["Ryno", "Salamendro", "Corvapse"]},
+	# Final Team: Titanger, Stainana, Magmoroch, Afterwrithe, Terroforma, Excavolt
+	# "05-4": {"team": ["Gryfnosa", "Apoploox", "Myrkkane", "Vesophry", "Voidborne", "Inkitsu"]},
+	
 	
 }
 
